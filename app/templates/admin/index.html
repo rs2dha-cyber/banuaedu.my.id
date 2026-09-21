@@ -1,0 +1,692 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Admin Panel - Banua Edu{% endblock %}
+
+{% block content %}
+
+<style>
+    .admin-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px 0 50px;
+    }
+
+    .admin-header {
+        background: linear-gradient(135deg, #0f172a, #1e3a8a);
+        color: white;
+        border-radius: 24px;
+        padding: 32px;
+        margin-bottom: 24px;
+        box-shadow: 0 15px 40px rgba(15, 23, 42, 0.15);
+    }
+
+    .admin-header h1 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }
+
+    .admin-header p {
+        margin: 8px 0 0;
+        color: #cbd5e1;
+        font-size: 15px;
+    }
+
+    .admin-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 14px;
+        padding: 7px 13px;
+        border-radius: 999px;
+        background: rgba(255,255,255,.12);
+        border: 1px solid rgba(255,255,255,.18);
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 28px;
+    }
+
+    .stat-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        padding: 22px;
+        box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+    }
+
+    .stat-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 15px;
+        font-size: 23px;
+        background: #f1f5f9;
+    }
+
+    .stat-label {
+        margin-top: 16px;
+        color: #64748b;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .stat-number {
+        margin-top: 4px;
+        color: #0f172a;
+        font-size: 30px;
+        font-weight: 800;
+    }
+
+    .section-title {
+        margin: 30px 0 15px;
+    }
+
+    .section-title h2 {
+        margin: 0;
+        color: #0f172a;
+        font-size: 22px;
+        font-weight: 800;
+    }
+
+    .section-title p {
+        margin: 5px 0 0;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+    .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+
+    .menu-card {
+        position: relative;
+        display: block;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        padding: 24px;
+        text-decoration: none;
+        color: inherit;
+        box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05);
+        transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+        overflow: hidden;
+    }
+
+    .menu-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 15px 35px rgba(15, 23, 42, 0.10);
+        border-color: #cbd5e1;
+    }
+
+    .menu-card::after {
+        content: "";
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        right: -35px;
+        top: -35px;
+        background: #f8fafc;
+        border-radius: 50%;
+        z-index: 0;
+    }
+
+    .menu-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .menu-icon {
+        width: 54px;
+        height: 54px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        background: #eff6ff;
+        font-size: 25px;
+        margin-bottom: 17px;
+    }
+
+    .menu-card h3 {
+        margin: 0;
+        color: #0f172a;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .menu-card p {
+        margin: 7px 0 18px;
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .menu-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #2563eb;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 28px;
+    }
+
+    .quick-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 48px;
+        padding: 10px 14px;
+        border-radius: 14px;
+        background: #0f172a;
+        color: white;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+        transition: background .2s ease, transform .2s ease;
+    }
+
+    .quick-btn:hover {
+        background: #1e293b;
+        transform: translateY(-2px);
+    }
+
+    .quick-btn.secondary {
+        background: #f1f5f9;
+        color: #0f172a;
+        border: 1px solid #e2e8f0;
+    }
+
+    .quick-btn.secondary:hover {
+        background: #e2e8f0;
+    }
+
+    @media (max-width: 900px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .quick-actions {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 640px) {
+        .admin-wrapper {
+            padding: 10px 0 35px;
+        }
+
+        .admin-header {
+            padding: 24px 20px;
+            border-radius: 20px;
+        }
+
+        .admin-header h1 {
+            font-size: 25px;
+        }
+
+        .admin-header p {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .stat-card {
+            padding: 16px;
+            border-radius: 17px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            font-size: 19px;
+        }
+
+        .stat-label {
+            margin-top: 12px;
+            font-size: 11px;
+        }
+
+        .stat-number {
+            font-size: 24px;
+        }
+
+        .section-title {
+            margin-top: 25px;
+        }
+
+        .section-title h2 {
+            font-size: 19px;
+        }
+
+        .section-title p {
+            font-size: 12px;
+        }
+
+        .menu-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .menu-card {
+            padding: 19px;
+            border-radius: 17px;
+        }
+
+        .menu-icon {
+            width: 47px;
+            height: 47px;
+            border-radius: 13px;
+            font-size: 21px;
+            margin-bottom: 13px;
+        }
+
+        .menu-card h3 {
+            font-size: 16px;
+        }
+
+        .menu-card p {
+            font-size: 13px;
+            margin-bottom: 13px;
+        }
+
+        .quick-actions {
+            grid-template-columns: 1fr 1fr;
+            gap: 9px;
+        }
+
+        .quick-btn {
+            font-size: 12px;
+            min-height: 44px;
+            padding: 8px;
+        }
+    }
+</style>
+
+<div class="admin-wrapper">
+
+    <!-- HEADER -->
+    <div class="admin-header">
+
+        <div class="admin-badge">
+            🛠️ Panel Administrator
+        </div>
+
+        <h1>Selamat Datang di Admin Banua Edu</h1>
+
+        <p>
+            Kelola mata pelajaran, materi pembelajaran, ujian, dan soal
+            dari satu halaman.
+        </p>
+
+    </div>
+
+
+    <!-- STATISTIK -->
+    <div class="stats-grid">
+
+        <!-- USERS -->
+        <div class="stat-card">
+
+            <div class="stat-top">
+                <div>
+                    <div class="stat-label">TOTAL PENGGUNA</div>
+                    <div class="stat-number">
+                        {{ users or 0 }}
+                    </div>
+                </div>
+
+                <div class="stat-icon">
+                    👥
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- SUBJECTS -->
+        <div class="stat-card">
+
+            <div class="stat-top">
+                <div>
+                    <div class="stat-label">MATA PELAJARAN</div>
+                    <div class="stat-number">
+                        {{ subjects or 0 }}
+                    </div>
+                </div>
+
+                <div class="stat-icon">
+                    📚
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- MATERIALS -->
+        <div class="stat-card">
+
+            <div class="stat-top">
+                <div>
+                    <div class="stat-label">MATERI</div>
+                    <div class="stat-number">
+                        {{ materials or 0 }}
+                    </div>
+                </div>
+
+                <div class="stat-icon">
+                    📖
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- QUIZZES -->
+        <div class="stat-card">
+
+            <div class="stat-top">
+                <div>
+                    <div class="stat-label">UJIAN</div>
+                    <div class="stat-number">
+                        {{ quizzes or 0 }}
+                    </div>
+                </div>
+
+                <div class="stat-icon">
+                    📝
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MENU ADMIN -->
+    <div class="section-title">
+
+        <h2>Manajemen Sistem</h2>
+
+        <p>
+            Pilih menu yang ingin Anda kelola.
+        </p>
+
+    </div>
+
+
+    <div class="menu-grid">
+
+        <!-- MATA PELAJARAN -->
+        <a href="{{ url_for('admin.subjects') }}" class="menu-card">
+
+            <div class="menu-content">
+
+                <div class="menu-icon">
+                    📚
+                </div>
+
+                <h3>Mata Pelajaran</h3>
+
+                <p>
+                    Kelola daftar mata pelajaran, jenjang pendidikan,
+                    deskripsi, serta status aktif.
+                </p>
+
+                <div class="menu-link">
+                    Kelola Mata Pelajaran →
+                </div>
+
+            </div>
+
+        </a>
+
+
+        <!-- TAMBAH MATA PELAJARAN -->
+        <a href="{{ url_for('admin.new_subject') }}" class="menu-card">
+
+            <div class="menu-content">
+
+                <div class="menu-icon">
+                    ➕
+                </div>
+
+                <h3>Tambah Mata Pelajaran</h3>
+
+                <p>
+                    Tambahkan mata pelajaran baru ke dalam sistem
+                    pembelajaran Banua Edu.
+                </p>
+
+                <div class="menu-link">
+                    Tambah Sekarang →
+                </div>
+
+            </div>
+
+        </a>
+
+
+        <!-- MATERI -->
+        <a href="{{ url_for('admin.materials') }}" class="menu-card">
+
+            <div class="menu-content">
+
+                <div class="menu-icon">
+                    📖
+                </div>
+
+                <h3>Materi Pembelajaran</h3>
+
+                <p>
+                    Kelola materi, isi pembelajaran, video, PDF,
+                    urutan materi, dan mata pelajaran.
+                </p>
+
+                <div class="menu-link">
+                    Kelola Materi →
+                </div>
+
+            </div>
+
+        </a>
+
+
+        <!-- TAMBAH MATERI -->
+        <a href="{{ url_for('admin.new_material') }}" class="menu-card">
+
+            <div class="menu-content">
+
+                <div class="menu-icon">
+                    ✏️
+                </div>
+
+                <h3>Tambah Materi</h3>
+
+                <p>
+                    Buat materi pembelajaran baru lengkap dengan
+                    konten, video, dan dokumen PDF.
+                </p>
+
+                <div class="menu-link">
+                    Tambah Materi →
+                </div>
+
+            </div>
+
+        </a>
+
+
+        <!-- UJIAN -->
+        <a href="{{ url_for('admin.quizzes') }}" class="menu-card">
+
+            <div class="menu-content">
+
+                <div class="menu-icon">
+                    📝
+                </div>
+
+                <h3>Manajemen Ujian</h3>
+
+                <p>
+                    Kelola daftar ujian, mata pelajaran, durasi,
+                    serta status ujian.
+                </p>
+
+                <div class="menu-link">
+                    Kelola Ujian →
+                </div>
+
+            </div>
+
+        </a>
+
+
+        <!-- TAMBAH UJIAN -->
+        <a href="{{ url_for('admin.new_quiz') }}" class="menu-card">
+
+            <div class="menu-content">
+
+                <div class="menu-icon">
+                    🆕
+                </div>
+
+                <h3>Buat Ujian Baru</h3>
+
+                <p>
+                    Buat ujian baru dan tentukan mata pelajaran
+                    serta durasi pengerjaan.
+                </p>
+
+                <div class="menu-link">
+                    Buat Ujian →
+                </div>
+
+            </div>
+
+        </a>
+
+
+        <!-- SOAL -->
+        <a href="{{ url_for('admin.questions') }}" class="menu-card">
+
+            <div class="menu-content">
+
+                <div class="menu-icon">
+                    ❓
+                </div>
+
+                <h3>Bank Soal</h3>
+
+                <p>
+                    Kelola pertanyaan, pilihan jawaban A sampai D,
+                    dan jawaban yang benar.
+                </p>
+
+                <div class="menu-link">
+                    Kelola Soal →
+                </div>
+
+            </div>
+
+        </a>
+
+
+        <!-- TAMBAH SOAL -->
+        <a href="{{ url_for('admin.new_question') }}" class="menu-card">
+
+            <div class="menu-content">
+
+                <div class="menu-icon">
+                    🧠
+                </div>
+
+                <h3>Tambah Soal</h3>
+
+                <p>
+                    Tambahkan soal baru ke dalam ujian yang sudah
+                    tersedia.
+                </p>
+
+                <div class="menu-link">
+                    Tambah Soal →
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
+
+
+    <!-- QUICK ACTION -->
+    <div class="section-title">
+
+        <h2>Akses Cepat</h2>
+
+        <p>
+            Shortcut untuk berpindah ke halaman utama sistem.
+        </p>
+
+    </div>
+
+
+    <div class="quick-actions">
+
+        <a href="{{ url_for('home') }}" class="quick-btn">
+            🏠 Beranda
+        </a>
+
+        <a href="{{ url_for('materi.index') }}" class="quick-btn secondary">
+            📚 Lihat Materi
+        </a>
+
+        <a href="{{ url_for('ujian.index') }}" class="quick-btn secondary">
+            📝 Lihat Ujian
+        </a>
+
+        <a href="{{ url_for('dashboard.index') }}" class="quick-btn secondary">
+            📊 Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

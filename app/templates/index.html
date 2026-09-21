@@ -1,0 +1,2159 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banua Edu — Belajar Lebih Mudah, Raih Prestasi Lebih Tinggi</title>
+    <meta name="description" content="Banua Edu membantu siswa belajar, mengerjakan ujian online, dan memantau kemajuan belajar dalam satu tempat.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        html[data-theme="dark"] {
+            --bg: #0a1220;
+            --bg-soft: #0d1829;
+            --bg-card: #111c2e;
+            --bg-card-2: #0f1a2a;
+            --bg-nav: linear-gradient(90deg, #0b1525 0%, #0f1c30 100%);
+            --bg-hero:
+                radial-gradient(ellipse at 30% 20%, rgba(212,175,55,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(45,212,191,0.06) 0%, transparent 45%),
+                linear-gradient(160deg, #0a1220 0%, #0d1829 40%, #0f1c30 100%);
+            --bg-cta: linear-gradient(135deg, #0b1525 0%, #0f1c30 50%, #122038 100%);
+            --bg-footer: #070e18;
+            --text: #e2e8f0;
+            --text-h: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-soft: #64748b;
+            --accent: #d4af37;
+            --accent-hover: #e0c04a;
+            --accent-dark: #b8962e;
+            --accent-text: #1a1408;
+            --border: rgba(212, 175, 55, 0.15);
+            --border-card: rgba(212, 175, 55, 0.12);
+            --shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            --nav-link: #94a3b8;
+            --check-bg: linear-gradient(135deg, #d4af37, #b8962e);
+            --check-color: #1a1408;
+            --toggle-bg: #111c2e;
+            --toggle-border: rgba(212, 175, 55, 0.3);
+        }
+
+        html[data-theme="light"] {
+            --bg: #f0f4ff;
+            --bg-soft: #e8eefc;
+            --bg-card: #ffffff;
+            --bg-card-2: #f8fafc;
+            --bg-nav: linear-gradient(90deg, #1e3a8a 0%, #2563eb 100%);
+            --bg-hero: linear-gradient(145deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
+            --bg-cta: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            --bg-footer: #0f172a;
+            --text: #334155;
+            --text-h: #0f172a;
+            --text-muted: #64748b;
+            --text-soft: #94a3b8;
+            --accent: #d4af37;
+            --accent-hover: #e0c04a;
+            --accent-dark: #b8962e;
+            --accent-text: #1a1408;
+            --border: rgba(37, 99, 235, 0.15);
+            --border-card: #e0e7ff;
+            --shadow: 0 12px 40px rgba(29, 78, 216, 0.1);
+            --nav-link: rgba(255,255,255,0.88);
+            --check-bg: linear-gradient(135deg, #22c55e, #16a34a);
+            --check-color: #fff;
+            --toggle-bg: #fff;
+            --toggle-border: #c7d2fe;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        /* ===== Navbar ===== */
+        .navbar {
+            background: var(--bg-nav);
+            border-bottom: 1px solid var(--border);
+            padding: 0 7%;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: -0.4px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--nav-link);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: 9px;
+            transition: all 0.18s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--accent);
+        }
+
+        .nav-links a.nav-cta {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: var(--accent-text);
+            margin-left: 6px;
+            box-shadow: 0 2px 14px rgba(212, 175, 55, 0.3);
+        }
+
+        .nav-links a.nav-cta:hover {
+            background: linear-gradient(135deg, var(--accent-hover), var(--accent));
+            transform: translateY(-1px);
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 92px 7% 118px;
+            background: var(--bg-hero);
+            text-align: center;
+            isolation: isolate;
+        }
+
+        .hero::before,
+        .hero::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .hero::before {
+            width: 360px;
+            height: 360px;
+            left: -160px;
+            top: 30px;
+            background: rgba(212, 175, 55, 0.045);
+            filter: blur(8px);
+        }
+
+        .hero::after {
+            width: 300px;
+            height: 300px;
+            right: -120px;
+            bottom: -40px;
+            background: rgba(45, 212, 191, 0.045);
+            filter: blur(8px);
+        }
+
+        html[data-theme="dark"] .hero {
+            color: #e2e8f0;
+        }
+
+        html[data-theme="light"] .hero {
+            color: #fff;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 999px;
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 24px rgba(212,175,55,.06);
+        }
+
+        .hero h1 {
+            font-size: clamp(34px, 5vw, 54px);
+            font-weight: 800;
+            line-height: 1.18;
+            letter-spacing: -1px;
+            max-width: 760px;
+            margin: 0 auto 18px;
+        }
+
+        html[data-theme="dark"] .hero h1 {
+            color: #f8fafc;
+        }
+
+        html[data-theme="light"] .hero h1 {
+            color: #fff;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero-desc {
+            font-size: 17px;
+            max-width: 600px;
+            margin: 0 auto 34px;
+            line-height: 1.75;
+        }
+
+        html[data-theme="dark"] .hero-desc {
+            color: #94a3b8;
+        }
+
+        html[data-theme="light"] .hero-desc {
+            color: #dbeafe;
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 26px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: var(--accent-text);
+            box-shadow: 0 8px 28px rgba(212, 175, 55, 0.35);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--accent-hover), var(--accent));
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(212, 175, 55, 0.45);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.08);
+            color: #e2e8f0;
+            border: 1.5px solid rgba(212, 175, 55, 0.35);
+        }
+
+        html[data-theme="light"] .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(212, 175, 55, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .hero-note {
+            margin-top: 19px;
+            font-size: 12px;
+            color: rgba(148,163,184,.85);
+        }
+
+        /* ===== Features ===== */
+        .features-section {
+            padding: 0 7% 88px;
+            margin-top: -44px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: linear-gradient(145deg, var(--bg-card), var(--bg-card-2));
+            border: 1px solid var(--border-card);
+            border-radius: 22px;
+            padding: 34px 28px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 175, 55, 0.35);
+        }
+
+        .feature-card::after {
+            content: "";
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            top: -55px;
+            right: -55px;
+            background: rgba(212,175,55,.055);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 18px;
+            border-radius: 18px;
+            font-size: 28px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .feature-card h3 {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--text-h);
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ===== Learning Zone ===== */
+        .be-learning-zone {
+            padding: 92px 7%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(212,175,55,.06), transparent 35%),
+                radial-gradient(circle at 80% 70%, rgba(45,212,191,.05), transparent 35%),
+                var(--bg);
+            border-top: 1px solid var(--border);
+        }
+
+        .be-section-heading {
+            max-width: 720px;
+            margin: 0 auto 45px;
+            text-align: center;
+        }
+
+        .be-section-badge {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 999px;
+            background: rgba(212,175,55,.10);
+            border: 1px solid rgba(212,175,55,.25);
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .5px;
+            margin-bottom: 15px;
+        }
+
+        .be-section-heading h2 {
+            font-size: clamp(27px, 4vw, 38px);
+            font-weight: 800;
+            color: var(--text-h);
+            margin-bottom: 12px;
+            letter-spacing: -.7px;
+        }
+
+        .be-section-heading p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        .be-learning-grid {
+            max-width: 1150px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .be-card {
+            background: linear-gradient(145deg, var(--bg-card), var(--bg-card-2));
+            border: 1px solid var(--border-card);
+            border-radius: 22px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            transition: .25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .be-card::before {
+            content: "";
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            top: -70px;
+            right: -70px;
+            background: rgba(212,175,55,.08);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .be-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(212,175,55,.35);
+        }
+
+        .be-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .be-icon {
+            width: 52px;
+            height: 52px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            font-size: 25px;
+            background: rgba(212,175,55,.08);
+            border: 1px solid rgba(212,175,55,.18);
+        }
+
+        .be-live {
+            font-size: 10px;
+            font-weight: 800;
+            color: #22c55e;
+        }
+
+        .be-small-label {
+            color: var(--accent);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .6px;
+        }
+
+        .be-card h3 {
+            font-size: 19px;
+            color: var(--text-h);
+            margin-bottom: 7px;
+        }
+
+        .be-muted {
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.65;
+        }
+
+        /* Quiz */
+        .be-question {
+            margin: 20px 0 14px;
+            padding: 16px;
+            border-radius: 14px;
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(212,175,55,.10);
+        }
+
+        .be-question span {
+            display: block;
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 7px;
+        }
+
+        .be-question strong {
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .be-options {
+            display: grid;
+            gap: 8px;
+        }
+
+        .be-options button {
+            padding: 11px 13px;
+            border-radius: 11px;
+            border: 1px solid rgba(148,163,184,.18);
+            background: rgba(255,255,255,.035);
+            color: var(--text);
+            text-align: left;
+            cursor: pointer;
+            font-family: inherit;
+            transition: .2s ease;
+        }
+
+        .be-options button:hover {
+            border-color: rgba(212,175,55,.5);
+            background: rgba(212,175,55,.08);
+        }
+
+        .be-options button:disabled {
+            cursor: default;
+        }
+
+        #beQuizResult {
+            min-height: 22px;
+            margin-top: 12px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* Subjects */
+        .be-subject {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 14px;
+            background: rgba(255,255,255,.025);
+            border: 1px solid rgba(148,163,184,.10);
+            transition: .2s ease;
+        }
+
+        .be-subject:hover {
+            transform: translateX(3px);
+            border-color: rgba(212,175,55,.20);
+        }
+
+        .be-subject-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            display: grid;
+            place-items: center;
+            background: rgba(212,175,55,.08);
+        }
+
+        .be-subject div:nth-child(2) {
+            flex: 1;
+        }
+
+        .be-subject strong {
+            display: block;
+            font-size: 13px;
+            color: var(--text);
+        }
+
+        .be-subject small {
+            display: block;
+            color: var(--text-soft);
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .be-subject > span {
+            color: var(--accent);
+            font-size: 17px;
+        }
+
+        /* Achievement */
+        .be-progress-box {
+            margin-top: 22px;
+            padding: 17px;
+            border-radius: 15px;
+            background: rgba(255,255,255,.025);
+            border: 1px solid rgba(148,163,184,.10);
+        }
+
+        .be-progress-info,
+        .be-progress-meta {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .be-progress-info {
+            color: var(--text);
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .be-progress-info strong {
+            color: var(--accent);
+        }
+
+        .be-progress {
+            height: 9px;
+            border-radius: 999px;
+            background: rgba(148,163,184,.12);
+            overflow: hidden;
+        }
+
+        .be-progress-bar {
+            width: 72%;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+            box-shadow: 0 0 15px rgba(212,175,55,.3);
+        }
+
+        .be-progress-meta {
+            margin-top: 8px;
+            color: var(--text-soft);
+            font-size: 10px;
+        }
+
+        .be-achievement {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-top: 15px;
+        }
+
+        .be-achievement > span {
+            font-size: 27px;
+        }
+
+        .be-achievement strong {
+            display: block;
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        .be-achievement small {
+            color: var(--text-soft);
+            font-size: 11px;
+        }
+
+        /* Stats */
+        .be-stats {
+            max-width: 1050px;
+            margin: 28px auto 0;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border: 1px solid var(--border-card);
+            border-radius: 20px;
+            overflow: hidden;
+            background: rgba(255,255,255,.02);
+        }
+
+        .be-stats div {
+            text-align: center;
+            padding: 25px 10px;
+            border-right: 1px solid var(--border-card);
+        }
+
+        .be-stats div:last-child {
+            border-right: none;
+        }
+
+        .be-stats strong {
+            display: block;
+            color: var(--accent);
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .be-stats span {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        /* Quote */
+        .be-quote {
+            max-width: 850px;
+            margin: 55px auto 0;
+            padding: 32px 40px;
+            text-align: center;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(212,175,55,.08), rgba(45,212,191,.04));
+            border: 1px solid rgba(212,175,55,.16);
+            position: relative;
+        }
+
+        .be-quote-mark {
+            font-size: 60px;
+            height: 35px;
+            color: var(--accent);
+            opacity: .35;
+        }
+
+        .be-quote p {
+            font-size: 19px;
+            font-weight: 600;
+            color: var(--text-h);
+            margin: 10px auto;
+            transition: opacity .25s ease;
+        }
+
+        .be-quote span {
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* ===== Why ===== */
+        .why-section {
+            padding: 80px 7% 90px;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+        }
+
+        .why-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .why-label {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            background: rgba(212, 175, 55, 0.12);
+            padding: 4px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+        }
+
+        .why-section h2 {
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1.25;
+            margin-bottom: 16px;
+            color: var(--text-h);
+        }
+
+        .why-desc {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+            line-height: 1.7;
+        }
+
+        .why-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .why-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .why-check {
+            width: 26px;
+            height: 26px;
+            min-width: 26px;
+            border-radius: 50%;
+            background: var(--check-bg);
+            color: var(--check-color);
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 800;
+            margin-top: 1px;
+            box-shadow: 0 2px 10px rgba(212, 175, 55, 0.25);
+        }
+
+        .why-visual {
+            background: linear-gradient(145deg, var(--bg-card), var(--bg-card-2));
+            border: 1px solid var(--border-card);
+            border-radius: 24px;
+            padding: 48px 40px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-visual::before {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            left: -90px;
+            bottom: -90px;
+            background: rgba(45,212,191,.05);
+        }
+
+        .why-visual-icon {
+            font-size: 52px;
+            margin-bottom: 16px;
+        }
+
+        .why-visual h3 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .why-visual p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        /* ===== CTA ===== */
+        .cta-section {
+            padding: 78px 7%;
+            text-align: center;
+            background: var(--bg-cta);
+            border-top: 1px solid var(--border);
+            color: #fff;
+        }
+
+        .cta-section h2 {
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+            margin-bottom: 12px;
+            color: #f8fafc;
+        }
+
+        .cta-section p {
+            font-size: 16px;
+            color: #94a3b8;
+            max-width: 520px;
+            margin: 0 auto 28px;
+            line-height: 1.65;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            padding: 28px 7%;
+            background: var(--bg-footer);
+            color: #64748b;
+            font-size: 13px;
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        footer strong {
+            color: var(--accent);
+        }
+
+        footer .sep {
+            margin: 0 6px;
+            opacity: 0.5;
+        }
+
+        /* ===== Floating theme toggle ===== */
+        .theme-toggle {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 0;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            border-radius: 999px;
+            padding: 6px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(212, 175, 55, 0.08);
+            backdrop-filter: blur(12px);
+        }
+
+        .theme-toggle button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 999px;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle button.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: var(--accent-text);
+            box-shadow: 0 2px 12px rgba(212, 175, 55, 0.35);
+        }
+
+        .theme-toggle button:not(.active):hover {
+            color: var(--accent);
+            background: rgba(212, 175, 55, 0.08);
+        }
+
+        .theme-toggle .icon {
+            font-size: 15px;
+            line-height: 1;
+        }
+
+
+        /* ----- Target navbar layout from reference visual ----- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            height: 68px;
+        }
+
+        .logo {
+            justify-self: start;
+            display: inline-flex;
+            align-items: baseline;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .logo-banua {
+            color: #d9ae2f;
+        }
+
+        .logo-edu {
+            color: #f8fafc;
+        }
+
+        .nav-links {
+            justify-self: center;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-links a {
+            padding: 7px 4px;
+            color: rgba(226,232,240,.88);
+            background: transparent;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+            background: transparent;
+            transform: translateY(-1px);
+        }
+
+        .nav-actions {
+            justify-self: end;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .nav-login {
+            color: rgba(226,232,240,.9);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 9px 10px;
+            border-radius: 10px;
+            transition: .2s ease;
+        }
+
+        .nav-login:hover {
+            color: #fff;
+            background: rgba(255,255,255,.05);
+        }
+
+        .nav-actions .nav-cta {
+            margin-left: 0;
+            padding: 11px 20px;
+            border-radius: 14px;
+            color: #17120a;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #e1b52e, #c99d1e);
+            border: 1px solid rgba(255,255,255,.10);
+            box-shadow:
+                0 10px 24px rgba(217,174,47,.18),
+                inset 0 1px 0 rgba(255,255,255,.18);
+        }
+
+        .nav-actions .nav-cta:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #ecc446, #d2a425);
+        }
+
+        @media (max-width: 760px) {
+            .navbar {
+                grid-template-columns: auto 1fr auto;
+                padding: 0 5%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-actions {
+                gap: 7px;
+            }
+
+            .nav-login {
+                padding: 8px 7px;
+                font-size: 13px;
+            }
+
+            .nav-actions .nav-cta {
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 900px) {
+            .features {
+                grid-template-columns: 1fr;
+                max-width: 420px;
+            }
+
+            .why-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .why-visual {
+                order: -1;
+            }
+
+            .be-learning-grid {
+                grid-template-columns: 1fr;
+                max-width: 520px;
+            }
+
+            .be-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .be-stats div:nth-child(2) {
+                border-right: none;
+            }
+
+            .be-stats div:nth-child(1),
+            .be-stats div:nth-child(2) {
+                border-bottom: 1px solid var(--border-card);
+            }
+
+            .hero {
+                padding: 70px 6% 90px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .nav-links a:not(.nav-cta) {
+                display: none;
+            }
+
+            .hero-desc {
+                font-size: 15px;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                max-width: 290px;
+                margin: 0 auto;
+            }
+
+            .hero-note {
+                max-width: 290px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .why-section h2,
+            .cta-section h2 {
+                font-size: 24px;
+            }
+
+            .be-learning-zone {
+                padding: 65px 5%;
+            }
+
+            .be-section-heading h2 {
+                font-size: 26px;
+            }
+
+            .be-card {
+                padding: 22px;
+            }
+
+            .be-stats strong {
+                font-size: 23px;
+            }
+
+            .be-quote {
+                padding: 28px 20px;
+            }
+
+            .be-quote p {
+                font-size: 16px;
+            }
+
+            .theme-toggle {
+                bottom: 18px;
+                right: 18px;
+            }
+
+            .theme-toggle button span.label {
+                display: none;
+            }
+
+            .theme-toggle button {
+                padding: 10px 12px;
+            }
+
+            footer {
+                font-size: 11px;
+                padding: 22px 5%;
+            }
+        }
+
+        /* =========================================================
+           PREMIUM VISUAL LAYER
+           Visual-only refinement: glassmorphism, glow, gradients,
+           premium typography and breathing room.
+           Functional HTML, routes, Jinja variables and JS remain.
+           ========================================================= */
+
+        :root {
+            --premium-gold: #d9ae2f;
+            --premium-gold-bright: #f0cf51;
+            --premium-blue: #263a8a;
+            --premium-purple: #4b3f9f;
+            --glass-border: rgba(255,255,255,.10);
+            --glass-bg: rgba(255,255,255,.045);
+            --glass-bg-strong: rgba(15,23,42,.58);
+            --premium-shadow: 0 24px 70px rgba(0,0,0,.28);
+        }
+
+        body {
+            font-family: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, sans-serif;
+            letter-spacing: -0.01em;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(217,174,47,.035), transparent 25%),
+                radial-gradient(circle at 85% 15%, rgba(75,63,159,.06), transparent 28%),
+                var(--bg);
+        }
+
+        /* ----- Navigation ----- */
+        .navbar {
+            height: 70px;
+            padding: 0 clamp(20px, 5vw, 72px);
+            background: rgba(9,15,29,.72);
+            border-bottom: 1px solid rgba(255,255,255,.055);
+            box-shadow: 0 10px 30px rgba(0,0,0,.10);
+            backdrop-filter: blur(18px) saturate(140%);
+            -webkit-backdrop-filter: blur(18px) saturate(140%);
+        }
+
+        html[data-theme="light"] .navbar {
+            background: rgba(30,58,138,.78);
+            border-bottom-color: rgba(255,255,255,.12);
+        }
+
+        .logo {
+            font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.7px;
+            text-shadow: 0 0 24px rgba(217,174,47,.14);
+        }
+
+        .nav-links {
+            gap: 4px;
+        }
+
+        .nav-links a {
+            padding: 9px 13px;
+            border-radius: 12px;
+            transition:
+                transform .22s ease,
+                background .22s ease,
+                color .22s ease,
+                box-shadow .22s ease;
+        }
+
+        .nav-links a:hover {
+            transform: translateY(-1px);
+            background: rgba(255,255,255,.055);
+            color: #fff;
+        }
+
+        .nav-links a.nav-cta {
+            border: 1px solid rgba(255,255,255,.12);
+            box-shadow:
+                0 8px 22px rgba(217,174,47,.18),
+                inset 0 1px 0 rgba(255,255,255,.18);
+        }
+
+        /* ----- Hero ----- */
+        .hero {
+            min-height: 550px;
+            padding: 102px 7% 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(ellipse at 15% 35%, rgba(217,174,47,.08) 0%, transparent 38%),
+                radial-gradient(ellipse at 82% 25%, rgba(73,86,190,.16) 0%, transparent 42%),
+                radial-gradient(ellipse at 75% 82%, rgba(106,64,178,.10) 0%, transparent 38%),
+                linear-gradient(135deg, #131a2b 0%, #171d30 48%, #12192d 100%);
+        }
+
+        html[data-theme="light"] .hero {
+            background:
+                radial-gradient(ellipse at 15% 35%, rgba(217,174,47,.14) 0%, transparent 38%),
+                radial-gradient(ellipse at 82% 25%, rgba(73,86,190,.18) 0%, transparent 42%),
+                linear-gradient(135deg, #20326f 0%, #3152a4 50%, #293e8e 100%);
+        }
+
+        .hero::before {
+            width: 520px;
+            height: 520px;
+            left: -260px;
+            top: -160px;
+            background:
+                radial-gradient(circle, rgba(217,174,47,.12) 0%, rgba(217,174,47,.045) 38%, transparent 70%);
+            filter: blur(8px);
+        }
+
+        .hero::after {
+            width: 440px;
+            height: 440px;
+            right: -220px;
+            bottom: -220px;
+            background:
+                radial-gradient(circle, rgba(76,83,190,.16) 0%, rgba(106,64,178,.06) 42%, transparent 72%);
+            filter: blur(8px);
+        }
+
+        .hero-badge {
+            margin-bottom: 28px;
+            padding: 9px 16px;
+            background: rgba(255,255,255,.045);
+            border: 1px solid rgba(217,174,47,.35);
+            box-shadow:
+                0 10px 35px rgba(0,0,0,.10),
+                inset 0 1px 0 rgba(255,255,255,.06);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .hero h1 {
+            max-width: 980px;
+            font-size: clamp(42px, 6.15vw, 72px);
+            font-weight: 800;
+            line-height: 1.07;
+            letter-spacing: -2.3px;
+            text-wrap: balance;
+            text-shadow: 0 10px 34px rgba(0,0,0,.22);
+        }
+
+        .hero h1 span {
+            display: inline-block;
+            background: linear-gradient(100deg, #d6ae34 0%, #f1d66f 72%, #d9ae2f 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 8px 22px rgba(217,174,47,.14));
+        }
+
+        .hero-desc {
+            max-width: 640px;
+            margin-top: 27px;
+            margin-bottom: 36px;
+            font-size: 16px;
+            line-height: 1.8;
+            color: rgba(203,213,225,.78) !important;
+        }
+
+        html[data-theme="light"] .hero-desc {
+            color: rgba(239,246,255,.88) !important;
+        }
+
+        .hero-actions {
+            gap: 14px;
+        }
+
+        .btn {
+            min-height: 52px;
+            padding: 14px 26px;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0,0,0,.12);
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                115deg,
+                transparent 20%,
+                rgba(255,255,255,.16) 48%,
+                transparent 72%
+            );
+            transform: translateX(-120%);
+            transition: transform .65s ease;
+            pointer-events: none;
+        }
+
+        .btn:hover::before {
+            transform: translateX(120%);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #deb22d 0%, #c99e21 100%);
+            box-shadow:
+                0 12px 34px rgba(217,174,47,.24),
+                inset 0 1px 0 rgba(255,255,255,.22);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 18px 42px rgba(217,174,47,.30),
+                inset 0 1px 0 rgba(255,255,255,.24);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,.055);
+            border: 1px solid rgba(255,255,255,.13);
+            box-shadow:
+                0 12px 34px rgba(0,0,0,.14),
+                inset 0 1px 0 rgba(255,255,255,.05);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            border-color: rgba(217,174,47,.34);
+            background: rgba(255,255,255,.085);
+            box-shadow:
+                0 18px 42px rgba(0,0,0,.18),
+                0 0 0 1px rgba(217,174,47,.05);
+        }
+
+        .hero-note {
+            margin-top: 26px;
+            color: rgba(148,163,184,.72);
+        }
+
+        /* ----- Feature cards ----- */
+        .features-section {
+            padding-bottom: 95px;
+            margin-top: -52px;
+        }
+
+        .features {
+            gap: 20px;
+        }
+
+        .feature-card {
+            padding: 34px 30px;
+            border-color: rgba(255,255,255,.08);
+            background:
+                linear-gradient(145deg, rgba(255,255,255,.052), rgba(255,255,255,.025)),
+                linear-gradient(145deg, var(--bg-card), var(--bg-card-2));
+            box-shadow:
+                var(--premium-shadow),
+                inset 0 1px 0 rgba(255,255,255,.045);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-9px);
+            border-color: rgba(217,174,47,.28);
+            box-shadow:
+                0 30px 80px rgba(0,0,0,.32),
+                0 0 35px rgba(217,174,47,.05),
+                inset 0 1px 0 rgba(255,255,255,.055);
+        }
+
+        .feature-icon {
+            box-shadow:
+                0 12px 28px rgba(0,0,0,.16),
+                inset 0 1px 0 rgba(255,255,255,.05);
+        }
+
+        /* ----- Learning zone / all cards ----- */
+        .be-card,
+        .why-visual,
+        .be-quote {
+            border-color: rgba(255,255,255,.075);
+            background:
+                linear-gradient(145deg, rgba(255,255,255,.048), rgba(255,255,255,.018)),
+                linear-gradient(145deg, var(--bg-card), var(--bg-card-2));
+            box-shadow:
+                var(--premium-shadow),
+                inset 0 1px 0 rgba(255,255,255,.035);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        .be-card:hover {
+            transform: translateY(-7px);
+            border-color: rgba(217,174,47,.25);
+            box-shadow:
+                0 28px 72px rgba(0,0,0,.30),
+                0 0 28px rgba(217,174,47,.045),
+                inset 0 1px 0 rgba(255,255,255,.05);
+        }
+
+        .be-subject,
+        .be-question,
+        .be-progress-box {
+            background: rgba(255,255,255,.032);
+            border-color: rgba(255,255,255,.07);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+        }
+
+        .be-stats {
+            background: rgba(255,255,255,.028);
+            border-color: rgba(255,255,255,.07);
+            box-shadow:
+                0 20px 60px rgba(0,0,0,.18),
+                inset 0 1px 0 rgba(255,255,255,.035);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        /* ----- Better spacing for long page ----- */
+        .why-section {
+            padding-top: 92px;
+            padding-bottom: 95px;
+        }
+
+        .cta-section {
+            padding-top: 88px;
+            padding-bottom: 88px;
+            background:
+                radial-gradient(circle at 15% 40%, rgba(217,174,47,.09), transparent 28%),
+                radial-gradient(circle at 85% 60%, rgba(84,79,173,.09), transparent 30%),
+                linear-gradient(135deg, #0c1424 0%, #111b30 55%, #10192c 100%);
+        }
+
+        /* ----- Mobile visual balance ----- */
+        @media (max-width: 900px) {
+            .hero {
+                min-height: 0;
+                padding: 78px 6% 98px;
+            }
+
+            .hero h1 {
+                font-size: clamp(38px, 9vw, 54px);
+                letter-spacing: -1.7px;
+            }
+
+            .features-section {
+                margin-top: -34px;
+                padding-bottom: 75px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                height: 64px;
+                padding: 0 5%;
+            }
+
+            .hero {
+                padding: 65px 5% 82px;
+            }
+
+            .hero-badge {
+                margin-bottom: 21px;
+                font-size: 11px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+                line-height: 1.1;
+                letter-spacing: -1.2px;
+            }
+
+            .hero-desc {
+                margin-top: 20px;
+                font-size: 14px;
+                line-height: 1.75;
+            }
+
+            .hero-actions {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .hero-note {
+                margin-top: 18px;
+                font-size: 11px;
+            }
+
+            .features-section {
+                margin-top: -26px;
+            }
+
+            .feature-card,
+            .be-card {
+                border-radius: 20px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <a href="/" class="logo" aria-label="Banua Edu">
+        <span class="logo-banua">Banua</span><span class="logo-edu">Edu</span>
+    </a>
+
+    <div class="nav-links">
+        <a href="#fitur">Fitur</a>
+        <a href="#harga">Harga</a>
+        <a href="#testimoni">Testimoni</a>
+    </div>
+
+    <div class="nav-actions">
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('dashboard.index') }}" class="nav-login">Dashboard</a>
+            <a href="{{ url_for('materi.index') }}" class="nav-cta">Mulai Belajar</a>
+        {% else %}
+            <a href="{{ url_for('auth.login') }}" class="nav-login">Masuk</a>
+            <a href="{{ url_for('auth.register') }}" class="nav-cta">Daftar Gratis</a>
+        {% endif %}
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-badge">✨ Platform Pembelajaran Digital</div>
+
+    <h1>
+        Belajar Lebih Mudah,<br>
+        Raih Prestasi <span>Lebih Tinggi</span>
+    </h1>
+
+    <p class="hero-desc">
+        Banua Edu membantu siswa memahami materi, mengerjakan ujian online,
+        dan memantau kemajuan belajar — semuanya dalam satu tempat.
+    </p>
+
+    <div class="hero-actions">
+        {% if current_user.is_authenticated %}
+            <a class="btn btn-primary" href="{{ url_for('materi.index') }}">Mulai Belajar Sekarang</a>
+            <a class="btn btn-secondary" href="{{ url_for('ujian.index') }}">Coba Ujian</a>
+        {% else %}
+            <a class="btn btn-primary" href="{{ url_for('auth.register') }}">Mulai Belajar Sekarang</a>
+            <a class="btn btn-secondary" href="{{ url_for('auth.login') }}">Saya Sudah Punya Akun</a>
+        {% endif %}
+    </div>
+
+    <div class="hero-note">
+        🎓 Belajar • Berlatih • Bertumbuh
+    </div>
+</section>
+
+<section class="features-section" id="fitur">
+    <div class="features">
+
+        <div class="feature-card">
+            <div class="feature-icon">📚</div>
+            <h3>Materi Terstruktur</h3>
+            <p>
+                Akses materi pembelajaran yang disusun rapi per mata pelajaran,
+                mudah dipahami, dan siap dipelajari kapan saja.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📝</div>
+            <h3>Ujian Online Interaktif</h3>
+            <p>
+                Kerjakan soal secara online, dapatkan nilai otomatis,
+                dan ketahui seberapa jauh pemahamanmu.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Pantau Progress Belajar</h3>
+            <p>
+                Lihat hasil ujian, nilai rata-rata, dan perkembangan belajar
+                dalam satu dashboard yang jelas.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- ===== BANUA EDU LEARNING ZONE ===== -->
+<section class="be-learning-zone">
+
+    <div class="be-section-heading">
+        <span class="be-section-badge">🚀 BANUA EDU LEARNING ZONE</span>
+
+        <h2>Belajar Tidak Harus Membosankan</h2>
+
+        <p>
+            Coba fitur kecil Banua Edu dan rasakan pengalaman belajar
+            yang lebih interaktif.
+        </p>
+    </div>
+
+    <div class="be-learning-grid">
+
+        <!-- Mini Quiz -->
+        <div class="be-card">
+            <div class="be-card-top">
+                <span class="be-icon">🎯</span>
+                <span class="be-live">● LIVE</span>
+            </div>
+
+            <h3>Tantangan 60 Detik</h3>
+
+            <p class="be-muted">
+                Uji pengetahuanmu dengan satu soal cepat.
+            </p>
+
+            {% if quiz_question %}
+                <div class="be-question">
+                    <span>SOAL ACAK • {{ quiz_question.quiz.judul }}</span>
+
+                    <strong>
+                        {{ quiz_question.pertanyaan }}
+                    </strong>
+                </div>
+
+                <div class="be-options">
+                    <button type="button" data-option="a"
+                            onclick="beQuiz(this)">
+                        A. {{ quiz_question.opsi_a }}
+                    </button>
+
+                    <button type="button" data-option="b"
+                            onclick="beQuiz(this)">
+                        B. {{ quiz_question.opsi_b }}
+                    </button>
+
+                    <button type="button" data-option="c"
+                            onclick="beQuiz(this)">
+                        C. {{ quiz_question.opsi_c }}
+                    </button>
+
+                    <button type="button" data-option="d"
+                            onclick="beQuiz(this)">
+                        D. {{ quiz_question.opsi_d }}
+                    </button>
+
+                    <input type="hidden"
+                           id="beQuizCorrect"
+                           value="{{ quiz_question.jawaban|lower }}">
+                </div>
+            {% else %}
+                <div class="be-question">
+                    <span>SOAL</span>
+                    <strong>
+                        Belum ada soal aktif. Tambahkan soal melalui menu ujian/admin.
+                    </strong>
+                </div>
+            {% endif %}
+
+            <div id="beQuizResult"></div>
+        </div>
+
+        <!-- Materi Populer -->
+        <div class="be-card">
+            <div class="be-card-top">
+                <span class="be-icon">📚</span>
+                <span class="be-small-label">POPULER</span>
+            </div>
+
+            <h3>Materi Populer</h3>
+
+            <p class="be-muted">
+                Materi yang cocok untuk mulai belajar hari ini.
+            </p>
+
+            {% if popular_subjects %}
+                {% for subject in popular_subjects %}
+                <a class="be-subject" href="{% if current_user.is_authenticated %}{{ url_for('materi.subject_detail', subject_id=subject.id) }}{% else %}{{ url_for('auth.login') }}{% endif %}">
+                    <div class="be-subject-icon">
+                        {% if loop.index == 1 %}📚{% elif loop.index == 2 %}🧪{% else %}🌏{% endif %}
+                    </div>
+                    <div>
+                        <strong>{{ subject.nama }}</strong>
+                        <small>
+                            {{ subject.jenjang or 'SD • SMP • SMA' }}
+                        </small>
+                    </div>
+
+                    <span>→</span>
+                </a>
+                {% endfor %}
+            {% else %}
+                <div class="be-subject">
+                    <div class="be-subject-icon">📚</div>
+                    <div>
+                        <strong>Belum ada mata pelajaran</strong>
+                        <small>Tambahkan melalui panel admin</small>
+                    </div>
+                    <span>→</span>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Achievement -->
+        <div class="be-card">
+            <div class="be-card-top">
+                <span class="be-icon">🏆</span>
+                <span class="be-small-label">PRESTASI</span>
+            </div>
+
+            <h3>Naik Level Setiap Hari</h3>
+
+            <p class="be-muted">
+                Sedikit belajar setiap hari membawa hasil besar.
+            </p>
+
+            <div class="be-progress-box">
+
+                <div class="be-progress-info">
+                    <span>Progress Belajar</span>
+                    <strong>72%</strong>
+                </div>
+
+                <div class="be-progress">
+                    <div class="be-progress-bar"></div>
+                </div>
+
+                <div class="be-progress-meta">
+                    <span>Level 7</span>
+                    <span>Menuju Level 8</span>
+                </div>
+            </div>
+
+            <div class="be-achievement">
+                <span>🔥</span>
+
+                <div>
+                    <strong>7 hari berturut-turut!</strong>
+                    <small>Pertahankan semangat belajarmu</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Statistik -->
+    <div class="be-stats">
+
+        <div>
+            <strong class="be-counter" data-target="{{ total_materials }}">0</strong>
+            <span>Materi Aktif</span>
+        </div>
+
+        <div>
+            <strong class="be-counter" data-target="{{ total_questions }}">1500</strong>
+            <span>Soal Aktif</span>
+        </div>
+
+        <div>
+            <strong class="be-counter" data-target="{{ total_students }}">3000</strong>
+            <span>Siswa Terdaftar</span>
+        </div>
+
+        <div>
+            <strong class="be-counter" data-target="{{ total_subjects }}">1500</strong>
+            <span>Mata Pelajaran</span>
+        </div>
+
+    </div>
+
+    <!-- Quote -->
+    <div class="be-quote">
+
+        <div class="be-quote-mark">“</div>
+
+        <p id="beQuote">
+            Pendidikan adalah investasi terbaik untuk masa depan.
+        </p>
+
+        <span id="beQuoteAuthor">— Banua Edu</span>
+
+    </div>
+
+</section>
+
+<!-- ===== WHY ===== -->
+<section class="why-section" id="testimoni">
+
+    <div class="why-inner">
+
+        <div>
+            <div class="why-label">Kenapa Banua Edu?</div>
+
+            <h2>
+                Dirancang agar belajar terasa lebih ringan dan terarah
+            </h2>
+
+            <p class="why-desc">
+                Tidak perlu bingung mulai dari mana. Semua fitur disusun
+                agar kamu bisa fokus belajar, bukan sibuk mencari materi.
+            </p>
+
+            <ul class="why-list">
+                <li>
+                    <span class="why-check">✓</span>
+                    Materi lengkap per mata pelajaran
+                </li>
+
+                <li>
+                    <span class="why-check">✓</span>
+                    Ujian online dengan penilaian otomatis
+                </li>
+
+                <li>
+                    <span class="why-check">✓</span>
+                    Dashboard progress belajar yang jelas
+                </li>
+
+                <li>
+                    <span class="why-check">✓</span>
+                    Bisa diakses kapan saja, di mana saja
+                </li>
+            </ul>
+        </div>
+
+        <div class="why-visual">
+            <div class="why-visual-icon">🎯</div>
+
+            <h3>Fokus pada Hasil</h3>
+
+            <p>
+                Setiap materi dan ujian dirancang untuk membantu kamu
+                memahami konsep, bukan sekadar menghafal.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section" id="harga">
+
+    <h2>
+        Siap mulai perjalanan belajarmu?
+    </h2>
+
+    <p>
+        Bergabung sekarang dan rasakan cara belajar yang lebih terarah,
+        terukur, dan menyenangkan.
+    </p>
+
+    {% if current_user.is_authenticated %}
+        <a class="btn btn-primary" href="{{ url_for('materi.index') }}">
+            Lihat Semua Materi →
+        </a>
+    {% else %}
+        <a class="btn btn-primary" href="{{ url_for('auth.register') }}">
+            Daftar Gratis Sekarang →
+        </a>
+    {% endif %}
+
+</section>
+
+<footer>
+    <strong>Banua Edu</strong>
+    <span class="sep">·</span>
+    Platform Pembelajaran Digital © 2026
+    <span class="sep">·</span>
+    <strong>BK Tech</strong>
+    <span class="sep">·</span>
+    Support <strong>Adha H.Y</strong>
+</footer>
+
+<!-- ===== Theme Switcher ===== -->
+<div class="theme-toggle" id="themeToggle">
+
+    <button type="button" data-theme="light" title="Tema Cerah">
+        <span class="icon">☀️</span>
+        <span class="label">Cerah</span>
+    </button>
+
+    <button type="button" data-theme="dark" title="Tema Gelap">
+        <span class="icon">🌙</span>
+        <span class="label">Gelap</span>
+    </button>
+
+</div>
+
+<script>
+(function () {
+
+    const root = document.documentElement;
+    const buttons = document.querySelectorAll('#themeToggle button');
+
+    function applyTheme(theme) {
+        root.setAttribute('data-theme', theme);
+
+        try {
+            localStorage.setItem('banua-theme', theme);
+        } catch (e) {
+            // LocalStorage mungkin tidak tersedia.
+        }
+
+        buttons.forEach(function (btn) {
+            btn.classList.toggle(
+                'active',
+                btn.getAttribute('data-theme') === theme
+            );
+        });
+    }
+
+    let saved = 'dark';
+
+    try {
+        saved = localStorage.getItem('banua-theme') || 'dark';
+    } catch (e) {
+        saved = 'dark';
+    }
+
+    applyTheme(saved);
+
+    buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            applyTheme(
+                btn.getAttribute('data-theme')
+            );
+        });
+    });
+
+})();
+</script>
+
+<script>
+/* ===== Mini Quiz ===== */
+function beQuiz(button) {
+
+    const result = document.getElementById('beQuizResult');
+    const buttons = document.querySelectorAll('.be-options button');
+    const correct = document.getElementById('beQuizCorrect');
+
+    buttons.forEach(function (btn) {
+        btn.disabled = true;
+        btn.style.opacity = '0.65';
+    });
+
+    if (!correct) {
+        result.textContent = 'ℹ️ Belum ada soal aktif.';
+        result.style.color = '#94a3b8';
+        return;
+    }
+
+    const selected = button.getAttribute('data-option');
+    const answer = correct.value.trim().toLowerCase();
+
+    if (selected === answer) {
+
+        button.style.borderColor = '#22c55e';
+        button.style.background = 'rgba(34,197,94,.10)';
+        button.style.color = '#22c55e';
+
+        result.textContent =
+            '✅ Benar! Jawabanmu tepat.';
+        result.style.color = '#22c55e';
+
+    } else {
+
+        button.style.borderColor = '#ef4444';
+        button.style.background = 'rgba(239,68,68,.08)';
+        button.style.color = '#ef4444';
+
+        result.textContent =
+            '❌ Belum tepat. Coba soal berikutnya.';
+        result.style.color = '#ef4444';
+    }
+}
+
+
+/* ===== Animated Statistics ===== */
+document.addEventListener('DOMContentLoaded', function () {
+
+    const counters =
+        document.querySelectorAll('.be-counter');
+
+    counters.forEach(function (counter) {
+
+        const target =
+            parseInt(counter.getAttribute('data-target'), 10) || 0;
+
+        const duration = 1200;
+        const startTime = performance.now();
+
+        function updateCounter(now) {
+
+            const progress =
+                Math.min((now - startTime) / duration, 1);
+
+            const eased =
+                1 - Math.pow(1 - progress, 3);
+
+            const current =
+                Math.floor(target * eased);
+
+            counter.textContent =
+                current.toLocaleString('id-ID');
+
+            if (progress < 1) {
+                requestAnimationFrame(updateCounter);
+            } else {
+                counter.textContent =
+                    target.toLocaleString('id-ID');
+            }
+        }
+
+        requestAnimationFrame(updateCounter);
+    });
+
+});
+
+
+/* ===== Rotating Quote ===== */
+(function () {
+
+    const quotes = [
+        [
+            'Pendidikan adalah investasi terbaik untuk masa depan.',
+            '— Banua Edu'
+        ],
+        [
+            'Tidak harus hebat untuk memulai, tetapi harus mulai untuk menjadi hebat.',
+            '— Banua Edu'
+        ],
+        [
+            'Sedikit belajar setiap hari menghasilkan perubahan besar.',
+            '— Banua Edu'
+        ],
+        [
+            'Kesalahan bukan akhir dari belajar. Kesalahan adalah bagian dari belajar.',
+            '— Banua Edu'
+        ]
+    ];
+
+    let index = 0;
+
+    setInterval(function () {
+
+        index = (index + 1) % quotes.length;
+
+        const quote =
+            document.getElementById('beQuote');
+
+        const author =
+            document.getElementById('beQuoteAuthor');
+
+        if (!quote || !author) {
+            return;
+        }
+
+        quote.style.opacity = '0';
+
+        setTimeout(function () {
+
+            quote.textContent = quotes[index][0];
+            author.textContent = quotes[index][1];
+
+            quote.style.opacity = '1';
+
+        }, 250);
+
+    }, 5000);
+
+})();
+</script>
+
+</body>
+</html>

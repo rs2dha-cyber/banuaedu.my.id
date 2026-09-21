@@ -1,0 +1,30 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Buat Ujian - Banua Edu{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <h1>📝 Buat Ujian</h1>
+
+    <form method="POST">
+
+        <label>Judul Ujian</label>
+        <input type="text" name="judul" required>
+
+        <label>Deskripsi</label>
+        <textarea name="deskripsi" rows="5"></textarea>
+
+        <button class="btn btn-primary" type="submit">
+            Simpan Ujian
+        </button>
+
+        <a class="btn btn-secondary"
+           href="{{ url_for('admin.index') }}">
+            Batal
+        </a>
+
+    </form>
+</div>
+
+{% endblock %}

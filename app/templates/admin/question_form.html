@@ -1,0 +1,58 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Tambah Soal - Banua Edu{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <h1>❓ Tambah Soal</h1>
+
+    <form method="POST">
+
+        <label>Ujian</label>
+        <select name="quiz_id" required>
+            {% for quiz in quizzes %}
+                <option value="{{ quiz.id }}">
+                    {{ quiz.judul }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Pertanyaan</label>
+        <textarea name="pertanyaan"
+                  rows="6"
+                  required></textarea>
+
+        <label>Opsi A</label>
+        <input type="text" name="opsi_a" required>
+
+        <label>Opsi B</label>
+        <input type="text" name="opsi_b" required>
+
+        <label>Opsi C</label>
+        <input type="text" name="opsi_c" required>
+
+        <label>Opsi D</label>
+        <input type="text" name="opsi_d" required>
+
+        <label>Jawaban Benar</label>
+        <select name="jawaban" required>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+        </select>
+
+        <button class="btn btn-primary" type="submit">
+            Simpan Soal
+        </button>
+
+        <a class="btn btn-secondary"
+           href="{{ url_for('admin.index') }}">
+            Batal
+        </a>
+
+    </form>
+</div>
+
+{% endblock %}

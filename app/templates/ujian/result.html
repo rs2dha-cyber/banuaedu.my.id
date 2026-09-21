@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Hasil {{ quiz.judul }} - Banua Edu{% endblock %}
+
+{% block content %}
+<style>
+    .result-page { max-width: 1050px; margin: 0 auto; }
+    .result-summary {
+        padding: 30px; text-align: center; border-radius: 24px; color: #fff;
+        background: linear-gradient(135deg, #172554, #2563eb 58%, #14b8a6);
+        box-shadow: 0 18px 40px rgba(37, 99, 235, .2); margin-bottom: 26px;
+    }
+    .result-summary h1 { color: #fff; margin-bottom: 6px; }
+    .result-summary p { color: #dbeafe; margin: 6px 0; }
+    .score { font: 800 58px/1 'Plus Jakarta Sans', sans-serif; margin: 18px 0 8px; }
+    .review-title { display: flex; justify-content: space-between; gap: 16px; align-items: end; margin-bottom: 14px; }
+    .review-title h2 { margin: 0; }
+    .review-title span { color: var(--text-muted); font-size: 13px; }
+    .review-card { margin-bottom: 14px; border-left: 4px solid #0f766e; }
+    .review-card h3 { font-size: 15px; line-height: 1.55; margin-bottom: 12px; }
+    .answer-key { display: inline-flex; padding: 6px 10px; border-radius: 8px; background: #ecfeff; color: #155e75; font-size: 12px; font-weight: 800; }
+    .explanation { margin: 12px 0 0; color: var(--text-muted); font-size: 14px; line-height: 1.65; }
+    .result-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px; }
+    @media (max-width: 650px) { .review-title { align-items: flex-start; flex-direction: column; gap: 5px; } }
+</style>
+
+<div class="result-page">
+    <section class="result-summary">
+        <h1>Ujian selesai 🎉</h1>
+        <p>{{ quiz.judul }}</p>
+        <div class="score">{{ attempt.nilai }}</div>
+        <p>Jawaban benar: <strong>{{ attempt.benar }}</strong> dari <strong>{{ attempt.total }}</strong> soal</p>
+        <div class="result-actions">
+            <a class="btn btn-primary" href="{{ url_for('ujian.index') }}">Kembali ke daftar ujian</a>
+            <a class="btn btn-secondary" href="{{ url_for('ujian.take', quiz_id=quiz.id) }}">Coba lagi</a>
+        </div>
+    </section>
+
+    <div class="review-title">
+        <h2>Pembahasan soal</h2>
+        <span>Pelajari kunci dan alasan jawaban setiap nomor.</span>
+    </div>
+
+    {% for q in questions %}
+        <article class="card review-card">
+            <h3>{{ loop.index }}. {{ q.pertanyaan|replace(' (Latihan pengayaan ' ~ loop.index ~ ')', '') }}</h3>
+            <span class="answer-key">Kunci jawaban: {{ q.jawaban }}</span>
+            <p class="explanation"><strong>Pembahasan:</strong> {{ q.pembahasan or 'Belum ada pembahasan untuk soal ini.' }}</p>
+        </article>
+    {% endfor %}
+</div>
+{% endblock %}

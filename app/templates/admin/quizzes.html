@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+
+{% block title %}
+Kelola Ujian • Banua Edu
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+.wrap {
+    max-width:1150px;
+    margin:auto;
+    padding:30px 20px 60px;
+}
+
+.head {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.head h1 {
+    margin:0;
+    color:#0f172a;
+    font-size:32px;
+}
+
+.head p {
+    margin:7px 0 0;
+    color:#64748b;
+}
+
+.card {
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 8px 25px rgba(15,23,42,.05);
+}
+
+.table-wrap {
+    overflow-x:auto;
+}
+
+table {
+    width:100%;
+    border-collapse:collapse;
+}
+
+th {
+    padding:14px;
+    background:#f8fafc;
+    text-align:left;
+    color:#475569;
+    font-size:12px;
+}
+
+td {
+    padding:15px 14px;
+    border-top:1px solid #e2e8f0;
+    font-size:14px;
+}
+
+.title {
+    font-weight:800;
+    color:#0f172a;
+}
+
+.subject {
+    color:#2563eb;
+    font-weight:700;
+}
+
+.actions {
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+}
+
+.btn {
+    border:0;
+    border-radius:10px;
+    padding:9px 12px;
+    text-decoration:none;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:700;
+}
+
+.add {
+    background:#2563eb;
+    color:white;
+}
+
+.edit {
+    background:#eff6ff;
+    color:#1d4ed8;
+}
+
+.delete {
+    background:#fef2f2;
+    color:#dc2626;
+}
+
+.empty {
+    padding:50px;
+    text-align:center;
+    color:#64748b;
+}
+
+.back {
+    display:inline-block;
+    margin-top:20px;
+    color:#475569;
+    text-decoration:none;
+    font-weight:700;
+}
+
+@media(max-width:700px) {
+
+    .wrap {
+        padding:20px 12px 40px;
+    }
+
+    .head {
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .head h1 {
+        font-size:27px;
+    }
+
+    .head .btn {
+        text-align:center;
+    }
+
+    th,
+    td {
+        white-space:nowrap;
+    }
+
+}
+
+</style>
+
+
+<div class="wrap">
+
+    <div class="head">
+
+        <div>
+            <h1>📝 Kelola Ujian</h1>
+            <p>Kelola ujian dan durasi pengerjaan.</p>
+        </div>
+
+        <a
+            href="{{ url_for('admin.new_quiz') }}"
+            class="btn add"
+        >
+            + Tambah Ujian
+        </a>
+
+    </div>
+
+
+    <div class="card">
+
+        {% if quizzes %}
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Ujian</th>
+                        <th>Mata Pelajaran</th>
+                        <th>Durasi</th>
+                        <th>Soal</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for quiz in quizzes %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td>
+                            <div class="title">
+                                {{ quiz.judul }}
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="subject">
+                                {{ quiz.subject.nama }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ quiz.durasi_menit }} menit
+                        </td>
+
+                        <td>
+                            {{ quiz.questions|length }}
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <a
+                                    href="{{ url_for(
+                                        'admin.edit_quiz',
+                                        quiz_id=quiz.id
+                                    ) }}"
+                                    class="btn edit"
+                                >
+                                    ✏️ Edit
+                                </a>
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for(
+                                        'admin.delete_quiz',
+                                        quiz_id=quiz.id
+                                    ) }}"
+                                    onsubmit="return confirm(
+                                        'Hapus ujian beserta semua soal dan hasilnya?'
+                                    );"
+                                >
+
+                                    <button
+                                        type="submit"
+                                        class="btn delete"
+                                    >
+                                        🗑️ Hapus
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty">
+
+            <h2>📝 Belum ada ujian</h2>
+
+            <p>
+                Silakan buat ujian pertama.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <a
+        href="{{ url_for('admin.index') }}"
+        class="back"
+    >
+        ← Kembali ke Admin
+    </a>
+
+</div>
+
+{% endblock %}

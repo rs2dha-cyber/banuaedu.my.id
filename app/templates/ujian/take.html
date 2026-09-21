@@ -1,0 +1,53 @@
+﻿{% extends "base.html" %}
+
+{% block title %}{{ quiz.judul }} - Banua Edu{% endblock %}
+
+{% block content %}
+
+<h1>{{ quiz.judul }}</h1>
+
+<form method="POST">
+
+{% for q in questions %}
+
+<div class="card">
+
+    <h3>{{ loop.index }}. {{ q.pertanyaan }}</h3>
+
+    <label>
+        <input type="radio" name="q{{ q.id }}" value="A" required>
+        {{ q.opsi_a }}
+    </label>
+
+    <br>
+
+    <label>
+        <input type="radio" name="q{{ q.id }}" value="B">
+        {{ q.opsi_b }}
+    </label>
+
+    <br>
+
+    <label>
+        <input type="radio" name="q{{ q.id }}" value="C">
+        {{ q.opsi_c }}
+    </label>
+
+    <br>
+
+    <label>
+        <input type="radio" name="q{{ q.id }}" value="D">
+        {{ q.opsi_d }}
+    </label>
+
+</div>
+
+{% endfor %}
+
+<button class="btn btn-primary" type="submit">
+    Kirim Jawaban
+</button>
+
+</form>
+
+{% endblock %}

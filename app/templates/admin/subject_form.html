@@ -1,0 +1,336 @@
+﻿{% extends "base.html" %}
+
+{% block title %}
+Kelola Mata Pelajaran • Banua Edu
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+.admin-wrap {
+    max-width: 1150px;
+    margin: auto;
+    padding: 30px 20px 60px;
+}
+
+.page-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.page-head h1 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 32px;
+}
+
+.page-head p {
+    margin: 7px 0 0;
+    color: #64748b;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 11px 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 0;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.btn-blue {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-blue:hover {
+    background: #1d4ed8;
+}
+
+.btn-edit {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.btn-delete {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(15,23,42,.05);
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #f8fafc;
+    color: #475569;
+    font-size: 12px;
+    text-align: left;
+    padding: 15px;
+}
+
+td {
+    padding: 16px 15px;
+    border-top: 1px solid #e2e8f0;
+    color: #334155;
+    font-size: 14px;
+}
+
+.subject-name {
+    color: #0f172a;
+    font-weight: 800;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.inactive {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.actions {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.delete-form {
+    margin: 0;
+}
+
+.back {
+    display: inline-block;
+    margin-top: 22px;
+    color: #475569;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.empty {
+    padding: 50px 20px;
+    text-align: center;
+    color: #64748b;
+}
+
+@media(max-width:700px) {
+
+    .admin-wrap {
+        padding: 20px 12px 40px;
+    }
+
+    .page-head {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .page-head h1 {
+        font-size: 27px;
+    }
+
+    .page-head .btn {
+        width: 100%;
+    }
+
+    th,
+    td {
+        white-space: nowrap;
+    }
+
+}
+
+</style>
+
+
+<div class="admin-wrap">
+
+    <div class="page-head">
+
+        <div>
+            <h1>📚 Mata Pelajaran</h1>
+            <p>Kelola semua mata pelajaran Banua Edu.</p>
+        </div>
+
+        <a
+            href="{{ url_for('admin.new_subject') }}"
+            class="btn btn-blue"
+        >
+            + Tambah Mata Pelajaran
+        </a>
+
+    </div>
+
+
+    <div class="card">
+
+        {% if subjects %}
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Mata Pelajaran</th>
+                        <th>Jenjang</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for subject in subjects %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td>
+                            <div class="subject-name">
+                                {{ subject.nama }}
+                            </div>
+
+                            {% if subject.deskripsi %}
+                            <small>
+                                {{ subject.deskripsi }}
+                            </small>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {{ subject.jenjang or "-" }}
+                        </td>
+
+                        <td>
+
+                            {% if subject.aktif %}
+
+                            <span class="badge active">
+                                Aktif
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge inactive">
+                                Tidak Aktif
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <a
+                                    href="{{ url_for(
+                                        'admin.edit_subject',
+                                        subject_id=subject.id
+                                    ) }}"
+                                    class="btn btn-edit"
+                                >
+                                    ✏️ Edit
+                                </a>
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for(
+                                        'admin.delete_subject',
+                                        subject_id=subject.id
+                                    ) }}"
+                                    class="delete-form"
+                                    onsubmit="return confirm(
+                                        'Hapus mata pelajaran ini beserta materi, ujian, dan data terkait?'
+                                    );"
+                                >
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-delete"
+                                    >
+                                        🗑️ Hapus
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty">
+
+            <h2>📚 Belum ada mata pelajaran</h2>
+
+            <p>
+                Silakan tambahkan mata pelajaran pertama.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <a
+        href="{{ url_for('admin.index') }}"
+        class="back"
+    >
+        ← Kembali ke Admin
+    </a>
+
+</div>
+
+{% endblock %}

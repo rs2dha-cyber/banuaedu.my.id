@@ -1,0 +1,476 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .materi-page {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 20px 16px 50px;
+    }
+
+    /* =========================
+       HEADER
+    ========================== */
+    .materi-hero {
+        position: relative;
+        overflow: hidden;
+        padding: 32px;
+        border-radius: 28px;
+        background: linear-gradient(
+            135deg,
+            #0f172a,
+            #1e3a8a,
+            #2563eb
+        );
+        color: white;
+        box-shadow: 0 20px 50px rgba(15, 23, 42, .18);
+        animation: banua-fade-up .55s ease both;
+    }
+
+    .materi-hero::before {
+        content: "";
+        position: absolute;
+        width: 280px;
+        height: 280px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.07);
+        right: -80px;
+        top: -120px;
+    }
+
+    .materi-hero::after {
+        content: "";
+        position: absolute;
+        width: 170px;
+        height: 170px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.05);
+        left: -70px;
+        bottom: -100px;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        transition: transform .25s ease;
+    }
+
+    .hero-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 13px;
+        border-radius: 999px;
+        background: rgba(255,255,255,.12);
+        border: 1px solid rgba(255,255,255,.16);
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .hero-title {
+        margin: 14px 0 0;
+        font-size: 31px;
+        font-weight: 850;
+        letter-spacing: -.5px;
+    }
+
+    .hero-description {
+        max-width: 680px;
+        margin: 10px 0 0;
+        color: rgba(255,255,255,.76);
+        line-height: 1.7;
+        font-size: 14px;
+    }
+
+
+    /* =========================
+       SECTION
+    ========================== */
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin: 25px 0 15px;
+    }
+
+    .section-title {
+        margin: 0;
+        font-size: 21px;
+        font-weight: 850;
+        color: #0f172a;
+    }
+
+    .section-count {
+        font-size: 13px;
+        color: #64748b;
+    }
+
+
+    /* =========================
+       SUBJECT GRID
+    ========================== */
+    .subject-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+
+    .subject-card {
+        display: flex;
+        flex-direction: column;
+        min-height: 215px;
+        padding: 21px;
+        border-radius: 22px;
+        background: white;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 8px 28px rgba(15,23,42,.06);
+        text-decoration: none;
+        transition: .22s ease;
+        position: relative;
+        overflow: hidden;
+        animation: banua-fade-up .5s ease both;
+    }
+
+    .subject-card:nth-child(2) { animation-delay: .06s; }
+    .subject-card:nth-child(3) { animation-delay: .12s; }
+    .subject-card:nth-child(4) { animation-delay: .18s; }
+    .subject-card:nth-child(5) { animation-delay: .24s; }
+    .subject-card:nth-child(6) { animation-delay: .30s; }
+
+    .subject-card::after {
+        content: "";
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: #eff6ff;
+        right: -35px;
+        bottom: -45px;
+        transition: .22s ease;
+    }
+
+    .subject-card:hover {
+        transform: translateY(-4px);
+        border-color: #bfdbfe;
+        box-shadow: 0 15px 35px rgba(37,99,235,.12);
+    }
+
+    .subject-card:hover::after {
+        transform: scale(1.3);
+    }
+
+    .subject-card:hover .subject-icon {
+        transform: rotate(-7deg) scale(1.08);
+    }
+
+    .subject-icon {
+        width: 52px;
+        height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        background: #eff6ff;
+        font-size: 25px;
+        margin-bottom: 18px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .subject-name {
+        margin: 0;
+        color: #0f172a;
+        font-size: 18px;
+        font-weight: 850;
+        position: relative;
+        z-index: 2;
+    }
+
+    .subject-level {
+        margin-top: 7px;
+        color: #2563eb;
+        font-size: 12px;
+        font-weight: 700;
+        position: relative;
+        z-index: 2;
+    }
+
+    .subject-description {
+        margin-top: 10px;
+        color: #64748b;
+        font-size: 13px;
+        line-height: 1.6;
+        position: relative;
+        z-index: 2;
+        flex: 1;
+    }
+
+    .subject-action {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-top: 15px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .learn-text {
+        color: #2563eb;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .arrow {
+        color: #2563eb;
+        font-size: 19px;
+        font-weight: 900;
+    }
+
+
+    /* =========================
+       EMPTY
+    ========================== */
+    .empty-state {
+        padding: 50px 20px;
+        text-align: center;
+        border: 1px dashed #cbd5e1;
+        border-radius: 22px;
+        background: #f8fafc;
+    }
+
+    .empty-icon {
+        font-size: 42px;
+    }
+
+    .empty-title {
+        margin-top: 10px;
+        font-size: 17px;
+        font-weight: 800;
+        color: #334155;
+    }
+
+    .empty-text {
+        margin-top: 5px;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+
+    /* =========================
+       TABLET
+    ========================== */
+    @media (max-width: 950px) {
+
+        .subject-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+
+    /* =========================
+       HP
+    ========================== */
+    @media (max-width: 600px) {
+
+        .materi-page {
+            padding: 10px 10px 35px;
+        }
+
+        .materi-hero {
+            padding: 23px 19px;
+            border-radius: 22px;
+        }
+
+        .hero-title {
+            font-size: 25px;
+        }
+
+        .hero-description {
+            font-size: 13px;
+        }
+
+        .section-header {
+            margin-top: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+        }
+
+        .subject-grid {
+            grid-template-columns: 1fr;
+            gap: 11px;
+        }
+
+        .subject-card {
+            min-height: 180px;
+            padding: 18px;
+            border-radius: 19px;
+        }
+
+        .subject-icon {
+            width: 47px;
+            height: 47px;
+            margin-bottom: 14px;
+        }
+
+        .subject-name {
+            font-size: 17px;
+        }
+    }
+</style>
+
+
+<div class="materi-page">
+
+    <!-- =========================
+         HERO
+    ========================== -->
+    <section class="materi-hero">
+
+        <div class="hero-content">
+
+            <div class="hero-label">
+                📚 Banua Edu
+            </div>
+
+            <h1 class="hero-title">
+                Materi Pembelajaran
+            </h1>
+
+            <p class="hero-description">
+                Pilih mata pelajaran yang ingin kamu pelajari.
+                Temukan materi pembelajaran yang disusun secara
+                sederhana dan mudah dipahami.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SUBJECT
+    ========================== -->
+    <div class="section-header">
+
+        <h2 class="section-title">
+            Mata Pelajaran
+        </h2>
+
+        <span class="section-count">
+            {{ subjects|length }} mata pelajaran
+        </span>
+
+    </div>
+
+
+    {% if subjects %}
+
+        <div class="subject-grid">
+
+            {% for subject in subjects %}
+
+                <a
+                    href="{{ url_for(
+                        'materi.subject_detail',
+                        subject_id=subject.id
+                    ) }}"
+                    class="subject-card"
+                >
+
+                    <div class="subject-icon">
+
+                        {% if loop.index == 1 %}
+                            🔢
+                        {% elif loop.index == 2 %}
+                            📖
+                        {% elif loop.index == 3 %}
+                            🌎
+                        {% elif loop.index == 4 %}
+                            🔬
+                        {% elif loop.index == 5 %}
+                            🧭
+                        {% elif loop.index == 6 %}
+                            💻
+                        {% else %}
+                            📚
+                        {% endif %}
+
+                    </div>
+
+
+                    <h3 class="subject-name">
+                        {{ subject.nama }}
+                    </h3>
+
+
+                    {% if subject.jenjang %}
+
+                        <div class="subject-level">
+                            {{ subject.jenjang }}
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if subject.deskripsi %}
+
+                        <div class="subject-description">
+                            {{ subject.deskripsi }}
+                        </div>
+
+                    {% else %}
+
+                        <div class="subject-description">
+                            Pelajari berbagai materi
+                            pembelajaran di mata pelajaran ini.
+                        </div>
+
+                    {% endif %}
+
+
+                    <div class="subject-action">
+
+                        <span class="learn-text">
+                            Mulai belajar
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </div>
+
+                </a>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                📚
+            </div>
+
+            <div class="empty-title">
+                Belum ada mata pelajaran
+            </div>
+
+            <div class="empty-text">
+                Admin belum menambahkan mata pelajaran.
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

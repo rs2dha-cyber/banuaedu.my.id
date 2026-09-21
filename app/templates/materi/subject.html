@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}{{ subject.nama }} — Banua Edu{% endblock %}
+
+{% block content %}
+<style>
+    .subject-page { max-width: 1050px; margin: 0 auto; }
+    .subject-hero {
+        padding: 32px;
+        border-radius: 24px;
+        color: #fff;
+        background: linear-gradient(135deg, #172554, #2563eb 62%, #14b8a6);
+        box-shadow: 0 18px 40px rgba(37, 99, 235, .22);
+        margin-bottom: 26px;
+        animation: banua-fade-up .55s ease both;
+    }
+    .subject-hero a { color: #dbeafe; text-decoration: none; font-size: 13px; font-weight: 700; }
+    .subject-hero h1 { color: #fff; margin: 18px 0 8px; font-size: clamp(28px, 5vw, 42px); }
+    .subject-hero p { max-width: 650px; margin: 0; color: #dbeafe; line-height: 1.7; }
+    .subject-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .subject-meta span {
+        padding: 7px 12px; border-radius: 999px;
+        background: rgba(255,255,255,.14); font-size: 12px; font-weight: 700;
+    }
+    .lesson-heading { display: flex; justify-content: space-between; gap: 15px; align-items: end; margin: 0 0 16px; }
+    .lesson-heading h2 { margin: 0; color: var(--text-h); font-size: 24px; }
+    .lesson-heading span { color: var(--text-muted); font-size: 13px; }
+    .lesson-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .lesson-card {
+        display: flex; gap: 16px; align-items: flex-start; padding: 21px;
+        color: inherit; text-decoration: none; background: var(--bg-card);
+        border: 1px solid var(--border-card); border-radius: 18px;
+        box-shadow: var(--shadow); transition: transform .2s ease, border-color .2s ease;
+        animation: banua-fade-up .5s ease both;
+    }
+    .lesson-card:nth-child(2) { animation-delay: .07s; }
+    .lesson-card:nth-child(3) { animation-delay: .14s; }
+    .lesson-card:nth-child(4) { animation-delay: .21s; }
+    .lesson-card:nth-child(5) { animation-delay: .28s; }
+    .lesson-card:hover { transform: translateY(-3px); border-color: rgba(37, 99, 235, .45); }
+    .lesson-number {
+        flex: 0 0 42px; width: 42px; height: 42px; display: grid; place-items: center;
+        border-radius: 13px; color: #fff; background: linear-gradient(135deg, #2563eb, #14b8a6);
+        font-weight: 800;
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .lesson-card:hover .lesson-number {
+        transform: rotate(6deg) scale(1.08);
+        box-shadow: 0 7px 16px rgba(20, 184, 166, .25);
+    }
+    .lesson-card h3 { margin: 2px 0 6px; color: var(--text-h); font-size: 16px; }
+    .lesson-card p { margin: 0; color: var(--text-muted); font-size: 13px; line-height: 1.55; }
+    .lesson-open { display: block; margin-top: 12px; color: #60a5fa; font-size: 12px; font-weight: 800; }
+    .empty-lessons { padding: 35px; text-align: center; color: var(--text-muted); background: var(--bg-card); border: 1px dashed var(--border-card); border-radius: 18px; }
+    @media (max-width: 680px) {
+        .subject-hero { padding: 24px; }
+        .lesson-grid { grid-template-columns: 1fr; }
+        .lesson-heading { align-items: flex-start; flex-direction: column; gap: 5px; }
+    }
+</style>
+
+<div class="subject-page">
+    <section class="subject-hero">
+        <a href="{{ url_for('materi.index') }}">← Kembali ke semua mata pelajaran</a>
+        <h1>{{ subject.nama }}</h1>
+        <p>{{ subject.deskripsi or 'Pelajari materi pilihan dan bangun pemahamanmu selangkah demi selangkah.' }}</p>
+        <div class="subject-meta">
+            <span>🎓 {{ subject.jenjang or 'SD • SMP • SMA' }}</span>
+            <span>📚 {{ materials|length }} materi tersedia</span>
+        </div>
+    </section>
+
+    <div class="lesson-heading">
+        <h2>Materi pembelajaran</h2>
+        <span>Mulai dari materi pertama, lalu lanjutkan sesuai ritmemu.</span>
+    </div>
+
+    {% if materials %}
+        <div class="lesson-grid">
+            {% for material in materials %}
+                <a class="lesson-card" href="{{ url_for('materi.detail', material_id=material.id) }}">
+                    <div class="lesson-number">{{ "%02d"|format(loop.index) }}</div>
+                    <div>
+                        <h3>{{ material.judul }}</h3>
+                        <p>Ringkasan konsep, contoh, dan latihan untuk membantu kamu memahami topik ini.</p>
+                        <span class="lesson-open">Buka materi →</span>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-lessons">
+            <div style="font-size: 34px;">📖</div>
+            <p>Materi untuk mata pelajaran ini sedang disiapkan.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

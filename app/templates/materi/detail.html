@@ -1,0 +1,824 @@
+﻿{% extends "base.html" %}
+
+{% block title %}
+{{ item.judul }} - Banua Edu
+{% endblock %}
+
+{% block content %}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .learning-page {
+        max-width: 1250px;
+        margin: 0 auto;
+        padding: 24px 18px 50px;
+    }
+
+    /* ==============================
+       TOP BAR
+    ============================== */
+
+    .learning-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #475569;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .back-link:hover {
+        color: #2563eb;
+    }
+
+    .subject-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 13px;
+        border-radius: 999px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+
+    /* ==============================
+       LAYOUT
+    ============================== */
+
+    .learning-layout {
+        display: grid;
+        grid-template-columns: 290px minmax(0, 1fr);
+        gap: 22px;
+        align-items: start;
+    }
+
+
+    /* ==============================
+       SIDEBAR
+    ============================== */
+
+    .lesson-sidebar {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(15, 23, 42, .05);
+        position: sticky;
+        top: 20px;
+    }
+
+    .sidebar-header {
+        padding: 20px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .sidebar-title {
+        color: #0f172a;
+        font-size: 16px;
+        font-weight: 800;
+        margin: 0;
+    }
+
+    .sidebar-subtitle {
+        color: #64748b;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .lesson-list {
+        padding: 8px;
+    }
+
+    .lesson-item {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 12px;
+        border-radius: 13px;
+        text-decoration: none;
+        color: #334155;
+        margin-bottom: 3px;
+        transition: .2s ease;
+    }
+
+    .lesson-item:hover {
+        background: #f8fafc;
+    }
+
+    .lesson-item.active {
+        background: #eff6ff;
+        color: #1d4ed8;
+    }
+
+    .lesson-number {
+        flex: 0 0 30px;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        background: #f1f5f9;
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .lesson-item.active .lesson-number {
+        background: #2563eb;
+        color: white;
+    }
+
+    .lesson-name {
+        min-width: 0;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1.4;
+    }
+
+
+    /* ==============================
+       MAIN CONTENT
+    ============================== */
+
+    .lesson-main {
+        min-width: 0;
+    }
+
+    .lesson-hero {
+        background: linear-gradient(
+            135deg,
+            #0f172a,
+            #1d4ed8
+        );
+        color: white;
+        border-radius: 24px;
+        padding: 30px;
+        margin-bottom: 18px;
+        box-shadow: 0 15px 40px rgba(15, 23, 42, .15);
+        animation: banua-fade-up .55s ease both;
+    }
+
+    .lesson-hero-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(255,255,255,.12);
+        border: 1px solid rgba(255,255,255,.15);
+        font-size: 11px;
+        font-weight: 800;
+        margin-bottom: 14px;
+    }
+
+    .lesson-hero h1 {
+        margin: 0;
+        font-size: 34px;
+        line-height: 1.2;
+        font-weight: 850;
+        letter-spacing: -.5px;
+    }
+
+    .lesson-hero p {
+        margin: 10px 0 0;
+        color: #dbeafe;
+        font-size: 14px;
+    }
+
+
+    /* ==============================
+       CONTENT CARD
+    ============================== */
+
+    .content-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 22px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(15,23,42,.05);
+        animation: banua-fade-up .6s .08s ease both;
+    }
+
+    .content-heading {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .content-heading-icon {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: #eff6ff;
+        font-size: 20px;
+        animation: banua-float 3s ease-in-out infinite;
+    }
+
+    .content-heading h2 {
+        margin: 0;
+        color: #0f172a;
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+    .materi-content {
+        color: #334155;
+        font-size: 16px;
+        line-height: 1.9;
+        white-space: pre-line;
+        overflow-wrap: anywhere;
+    }
+
+    .materi-content h3,
+    .materi-content h4 {
+        color: #0f766e;
+        margin-top: 1.4em;
+    }
+
+    .materi-content li::marker {
+        color: #0f766e;
+    }
+
+    .materi-content pre {
+        padding: 16px;
+        overflow-x: auto;
+        border-radius: 14px;
+        color: #dbeafe;
+        background: #102a43;
+        box-shadow: inset 0 0 0 1px rgba(94, 234, 212, .12);
+    }
+
+
+    /* ==============================
+       VIDEO
+    ============================== */
+
+    .resource-section {
+        margin-top: 30px;
+        padding-top: 25px;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .resource-title {
+        color: #0f172a;
+        font-size: 16px;
+        font-weight: 800;
+        margin-bottom: 13px;
+    }
+
+    .resource-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .resource-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 800;
+        transition: .2s ease;
+    }
+
+    .resource-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .video-btn {
+        background: #eff6ff;
+        color: #1d4ed8;
+    }
+
+    .pdf-btn {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+
+    /* ==============================
+       COMPLETE BUTTON
+    ============================== */
+
+    .complete-section {
+        margin-top: 28px;
+        padding: 20px;
+        border-radius: 17px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+    }
+
+    .complete-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    .complete-info strong {
+        display: block;
+        color: #0f172a;
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+
+    .complete-info span {
+        color: #64748b;
+        font-size: 12px;
+    }
+
+    .complete-btn {
+        border: 0;
+        cursor: pointer;
+        padding: 12px 18px;
+        border-radius: 12px;
+        background: #16a34a;
+        color: white;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+
+    /* ==============================
+       NAVIGATION
+    ============================== */
+
+    .lesson-navigation {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-top: 18px;
+    }
+
+    .nav-card {
+        display: block;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 18px;
+        padding: 18px;
+        text-decoration: none;
+        transition: .2s ease;
+    }
+
+    .nav-card:hover {
+        border-color: #93c5fd;
+        transform: translateY(-2px);
+    }
+
+    .nav-label {
+        display: block;
+        color: #64748b;
+        font-size: 11px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .nav-title {
+        color: #0f172a;
+        font-size: 14px;
+        font-weight: 800;
+        line-height: 1.4;
+    }
+
+    .nav-next {
+        text-align: right;
+    }
+
+
+    /* ==============================
+       MOBILE
+    ============================== */
+
+    @media (max-width: 850px) {
+
+        .learning-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .lesson-sidebar {
+            position: static;
+        }
+
+        .lesson-list {
+            display: flex;
+            overflow-x: auto;
+            gap: 6px;
+            padding: 10px;
+        }
+
+        .lesson-item {
+            flex: 0 0 190px;
+            margin: 0;
+        }
+    }
+
+
+    @media (max-width: 600px) {
+
+        .learning-page {
+            padding: 15px 10px 35px;
+        }
+
+        .learning-top {
+            align-items: flex-start;
+        }
+
+        .subject-badge {
+            font-size: 10px;
+            padding: 7px 10px;
+        }
+
+        .lesson-hero {
+            padding: 23px 19px;
+            border-radius: 20px;
+        }
+
+        .lesson-hero h1 {
+            font-size: 26px;
+        }
+
+        .lesson-hero p {
+            font-size: 12px;
+        }
+
+        .content-card {
+            padding: 21px 17px;
+            border-radius: 18px;
+        }
+
+        .content-heading h2 {
+            font-size: 18px;
+        }
+
+        .materi-content {
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .complete-row {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .complete-btn {
+            width: 100%;
+        }
+
+        .lesson-navigation {
+            grid-template-columns: 1fr;
+        }
+
+        .nav-next {
+            text-align: left;
+        }
+
+        .lesson-item {
+            flex-basis: 175px;
+        }
+    }
+</style>
+
+
+<div class="learning-page">
+
+    <!-- TOP BAR -->
+    <div class="learning-top">
+
+        <a
+            href="{{ url_for(
+                'materi.subject_detail',
+                subject_id=subject.id
+            ) }}"
+            class="back-link"
+        >
+            ← Kembali ke materi
+        </a>
+
+        <div class="subject-badge">
+            📚 {{ subject.nama }}
+        </div>
+
+    </div>
+
+
+    <div class="learning-layout">
+
+        <!-- ==========================================
+             SIDEBAR DAFTAR MATERI
+        =========================================== -->
+
+        <aside class="lesson-sidebar">
+
+            <div class="sidebar-header">
+
+                <div class="sidebar-title">
+                    Daftar Materi
+                </div>
+
+                <div class="sidebar-subtitle">
+                    {{ subject.nama }}
+                </div>
+
+            </div>
+
+
+            <div class="lesson-list">
+
+                {% for material in materials %}
+
+                <a
+                    href="{{ url_for(
+                        'materi.detail',
+                        material_id=material.id
+                    ) }}"
+                    class="lesson-item {% if material.id == item.id %}active{% endif %}"
+                >
+
+                    <div class="lesson-number">
+                        {{ loop.index }}
+                    </div>
+
+                    <div class="lesson-name">
+                        {{ material.judul }}
+                    </div>
+
+                </a>
+
+                {% endfor %}
+
+            </div>
+
+        </aside>
+
+
+        <!-- ==========================================
+             MAIN LESSON
+        =========================================== -->
+
+        <main class="lesson-main">
+
+            <!-- HERO -->
+
+            <div class="lesson-hero">
+
+                <div class="lesson-hero-label">
+                    📖 MATERI PEMBELAJARAN
+                </div>
+
+                <h1>
+                    {{ item.judul }}
+                </h1>
+
+                <p>
+
+                    {{ subject.nama }}
+
+                    {% if subject.jenjang %}
+                        • {{ subject.jenjang }}
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <div class="content-card">
+
+                <div class="content-heading">
+
+                    <div class="content-heading-icon">
+                        📝
+                    </div>
+
+                    <h2>
+                        Materi Pembelajaran
+                    </h2>
+
+                </div>
+
+
+                <div class="materi-content">
+
+                    {% if item.isi %}
+
+                        {{ item.isi|safe }}
+
+                    {% else %}
+
+                        Materi ini belum memiliki isi.
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- RESOURCE -->
+
+                {% if item.video_url or item.pdf_url %}
+
+                <div class="resource-section">
+
+                    <div class="resource-title">
+                        📎 Materi Pendukung
+                    </div>
+
+                    <div class="resource-buttons">
+
+                        {% if item.video_url %}
+
+                        <a
+                            href="{{ item.video_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="resource-btn video-btn"
+                        >
+                            ▶️ Tonton Video
+                        </a>
+
+                        {% endif %}
+
+
+                        {% if item.pdf_url %}
+
+                        <a
+                            href="{{ item.pdf_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="resource-btn pdf-btn"
+                        >
+                            📄 Buka PDF
+                        </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- COMPLETE -->
+
+                <div class="complete-section">
+
+                    <div class="complete-row">
+
+                        <div class="complete-info">
+
+                            <strong>
+                                Sudah selesai mempelajari materi ini?
+                            </strong>
+
+                            <span>
+                                Tandai materi sebagai selesai untuk
+                                mencatat progres belajar Anda.
+                            </span>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="complete-btn"
+                            onclick="tandaiSelesai()"
+                        >
+                            ✓ Tandai Selesai
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- NAVIGATION -->
+
+            <div class="lesson-navigation">
+
+                {% if prev_material %}
+
+                <a
+                    href="{{ url_for(
+                        'materi.detail',
+                        material_id=prev_material.id
+                    ) }}"
+                    class="nav-card"
+                >
+
+                    <span class="nav-label">
+                        ← MATERI SEBELUMNYA
+                    </span>
+
+                    <span class="nav-title">
+                        {{ prev_material.judul }}
+                    </span>
+
+                </a>
+
+                {% else %}
+
+                <div></div>
+
+                {% endif %}
+
+
+                {% if next_material %}
+
+                <a
+                    href="{{ url_for(
+                        'materi.detail',
+                        material_id=next_material.id
+                    ) }}"
+                    class="nav-card nav-next"
+                >
+
+                    <span class="nav-label">
+                        MATERI BERIKUTNYA →
+                    </span>
+
+                    <span class="nav-title">
+                        {{ next_material.judul }}
+                    </span>
+
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function tandaiSelesai() {
+
+    const button = document.querySelector(".complete-btn");
+
+    button.innerHTML = "✓ Materi Selesai";
+    button.style.background = "#15803d";
+
+    localStorage.setItem(
+        "materi_selesai_{{ item.id }}",
+        "true"
+    );
+
+    alert("Materi berhasil ditandai sebagai selesai.");
+
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const selesai = localStorage.getItem(
+            "materi_selesai_{{ item.id }}"
+        );
+
+        const button = document.querySelector(
+            ".complete-btn"
+        );
+
+        if (selesai === "true" && button) {
+
+            button.innerHTML = "✓ Materi Selesai";
+            button.style.background = "#15803d";
+
+        }
+
+    }
+);
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+{% block title %}Masuk - Banua Edu{% endblock %}
+
+{% block extra_css %}
+<style>
+    body { background: #0a1220; }
+
+    .auth-page {
+        min-height: calc(100vh - 120px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 16px;
+        position: relative;
+    }
+
+    .auth-page::before {
+        content: "";
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        top: 10%;
+        left: 5%;
+        border: 1px solid rgba(212, 175, 55, 0.06);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .auth-page::after {
+        content: "";
+        position: absolute;
+        width: 280px;
+        height: 280px;
+        bottom: 15%;
+        right: 8%;
+        border: 1px solid rgba(45, 212, 191, 0.05);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .auth-card {
+        width: min(400px, 100%);
+        background: linear-gradient(160deg, #111c2e 0%, #0d1829 100%);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        border-radius: 24px;
+        padding: 40px 36px;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5),
+                    0 0 0 1px rgba(212, 175, 55, 0.05),
+                    inset 0 1px 0 rgba(255,255,255,0.04);
+        position: relative;
+        z-index: 2;
+    }
+
+    .auth-logo {
+        text-align: center;
+        margin-bottom: 8px;
+    }
+
+    .auth-logo .mark {
+        width: 52px;
+        height: 52px;
+        margin: 0 auto 12px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #d4af37, #b8962e);
+        display: grid;
+        place-items: center;
+        font-size: 24px;
+        font-weight: 900;
+        color: #1a1408;
+        box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+    }
+
+    .auth-logo h1 {
+        font-size: 26px;
+        font-weight: 800;
+        color: #d4af37;
+        letter-spacing: 1px;
+        margin: 0 0 6px;
+    }
+
+    .auth-logo p {
+        font-size: 12px;
+        color: #64748b;
+        margin: 0 0 24px;
+        line-height: 1.5;
+    }
+
+    .auth-inner {
+        background: rgba(10, 18, 32, 0.5);
+        border: 1px solid rgba(212, 175, 55, 0.12);
+        border-radius: 16px;
+        padding: 24px;
+    }
+
+    .auth-inner h2 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #d4af37;
+        margin: 0 0 4px;
+        text-align: center;
+    }
+
+    .auth-inner .sub {
+        font-size: 13px;
+        color: #64748b;
+        text-align: center;
+        margin: 0 0 22px;
+    }
+
+    .auth-inner label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: #94a3b8;
+        margin-bottom: 6px;
+    }
+
+    .auth-inner input {
+        width: 100%;
+        padding: 12px 14px;
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 10px;
+        color: #e2e8f0;
+        font-size: 14px;
+        margin-bottom: 16px;
+        font-family: inherit;
+        transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .auth-inner input::placeholder { color: #4b5563; }
+
+    .auth-inner input:focus {
+        outline: none;
+        border-color: rgba(212, 175, 55, 0.5);
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    }
+
+    .auth-submit {
+        width: 100%;
+        padding: 13px;
+        background: linear-gradient(135deg, #d4af37, #b8962e);
+        color: #1a1408;
+        border: none;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 700;
+        font-family: inherit;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+        transition: all 0.2s ease;
+        margin-top: 4px;
+    }
+
+    .auth-submit:hover {
+        background: linear-gradient(135deg, #e0c04a, #d4af37);
+        transform: translateY(-1px);
+        box-shadow: 0 8px 24px rgba(212, 175, 55, 0.45);
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 13px;
+        color: #64748b;
+    }
+
+    .auth-footer a {
+        color: #d4af37;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .auth-footer a:hover { text-decoration: underline; }
+
+    .container { max-width: none; padding: 0; }
+
+    /* Keep authentication screens aligned with the main light interface. */
+    body { background: #f5f8fc; }
+    .auth-card {
+        background: #ffffff;
+        border-color: #dce7f0;
+        box-shadow: 0 24px 60px rgba(25, 55, 80, .12);
+    }
+    .auth-logo .mark {
+        background: linear-gradient(135deg, #0f766e, #0e7490);
+        color: #ffffff;
+        box-shadow: 0 6px 20px rgba(14, 116, 144, .24);
+    }
+    .auth-logo h1, .auth-inner h2 { color: #0f766e; }
+    .auth-logo p, .auth-inner .sub, .auth-footer { color: #64748b; }
+    .auth-inner {
+        background: #f8fbfd;
+        border-color: #e2edf3;
+    }
+    .auth-inner label { color: #475569; }
+    .auth-inner input {
+        background: #ffffff;
+        border-color: #cbd9e6;
+        color: #102a43;
+    }
+    .auth-inner input:focus {
+        border-color: #0f766e;
+        box-shadow: 0 0 0 3px rgba(15, 118, 110, .12);
+    }
+    .auth-submit {
+        background: linear-gradient(135deg, #0f766e, #0e7490);
+        color: #ffffff;
+        box-shadow: 0 6px 20px rgba(14, 116, 144, .24);
+    }
+    .auth-submit:hover { background: linear-gradient(135deg, #14b8a6, #0891b2); }
+    .auth-footer a { color: #0f766e; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-logo">
+            <div class="mark">B</div>
+            <h1>BANUA EDU</h1>
+            <p>Platform Pembelajaran Digital untuk Siswa</p>
+        </div>
+
+        <div class="auth-inner">
+            <h2>Selamat Datang</h2>
+            <p class="sub">Silakan masuk untuk melanjutkan</p>
+
+            <form method="POST">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Masukkan username" required autofocus>
+
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Masukkan password" required>
+
+                <button class="auth-submit" type="submit">
+                    🔒 Masuk ke Beranda
+                </button>
+            </form>
+        </div>
+
+        <div class="auth-footer">
+            Belum punya akun?
+            <a href="{{ url_for('auth.register') }}">Daftar sekarang</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

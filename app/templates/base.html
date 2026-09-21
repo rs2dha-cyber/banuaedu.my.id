@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Banua Edu{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        html[data-theme="dark"] {
+            --bg: #091525;
+            --bg-card: #102238;
+            --bg-nav: linear-gradient(105deg, #0b2545 0%, #123d68 55%, #0e7490 100%);
+            --text: #e2e8f0;
+            --text-h: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #5eead4;
+            --accent-dark: #14b8a6;
+            --accent-hover: #99f6e4;
+            --accent-text: #042f2e;
+            --border: rgba(148, 226, 220, 0.16);
+            --input-bg: rgba(15, 23, 42, 0.6);
+            --input-border: rgba(148, 163, 184, 0.2);
+            --flash-bg: rgba(94, 234, 212, 0.1);
+            --flash-text: #ccfbf1;
+            --toggle-bg: #111c2e;
+            --toggle-border: rgba(94, 234, 212, 0.3);
+            --nav-link: #94a3b8;
+        }
+
+        html[data-theme="light"] {
+            --bg: #f5f8fc;
+            --bg-card: #ffffff;
+            --bg-nav: linear-gradient(105deg, #0b2545 0%, #123d68 55%, #0e7490 100%);
+            --text: #334155;
+            --text-h: #102a43;
+            --text-muted: #64748b;
+            --accent: #0f766e;
+            --accent-dark: #0d9488;
+            --accent-hover: #14b8a6;
+            --accent-text: #ffffff;
+            --border: #dce7f0;
+            --input-bg: #fff;
+            --input-border: #cbd9e6;
+            --flash-bg: #ecfeff;
+            --flash-text: #155e75;
+            --toggle-bg: #fff;
+            --toggle-border: #b9d9d6;
+            --nav-link: rgba(255,255,255,0.9);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(circle at 10% 0%, rgba(20, 184, 166, .06), transparent 32%), var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        nav {
+            background: var(--bg-nav);
+            border-bottom: 1px solid rgba(255,255,255,.12);
+            padding: 12px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 6px 24px rgba(8, 47, 73, 0.16);
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            text-decoration: none;
+            letter-spacing: -0.3px;
+        }
+
+        .menu {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: rgba(255,255,255,.82);
+            padding: 8px 14px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.18s ease;
+        }
+
+        .menu a:hover {
+            background: rgba(255,255,255,.12);
+            color: #ffffff;
+        }
+
+        .menu a.active {
+            background: rgba(94, 234, 212, 0.18);
+            color: #ccfbf1;
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: auto;
+            padding: 32px 20px 48px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 12px 28px rgba(25, 55, 80, 0.08);
+        }
+
+        h1, h2, h3 { margin-top: 0; color: var(--text-h); font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -.02em; }
+
+        .btn {
+            display: inline-block;
+            padding: 11px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            border: 0;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0f766e, #0e7490);
+            color: #fff;
+            box-shadow: 0 6px 18px rgba(14, 116, 144, 0.24);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #14b8a6, #0891b2);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: rgba(148, 163, 184, 0.12);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .flash {
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: var(--flash-bg);
+            margin-bottom: 16px;
+            font-size: 14px;
+            border-left: 4px solid var(--accent);
+            color: var(--flash-text);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--input-border);
+            border-radius: 10px;
+            margin-top: 6px;
+            margin-bottom: 15px;
+            font: inherit;
+            background: var(--input-bg);
+            color: var(--text);
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        input::placeholder, textarea::placeholder { color: #64748b; }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        a { color: #0f766e; }
+
+        .site-footer {
+            padding: 24px 6%;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+        }
+
+        .site-footer strong { color: var(--accent); }
+        .site-footer .sep { margin: 0 6px; opacity: 0.5; }
+
+        /* Floating theme toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            border-radius: 999px;
+            padding: 6px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-toggle button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 999px;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle button.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: var(--accent-text);
+            box-shadow: 0 2px 12px rgba(212, 175, 55, 0.35);
+        }
+
+        .theme-toggle button:not(.active):hover {
+            color: var(--accent);
+            background: rgba(212, 175, 55, 0.08);
+        }
+
+        @keyframes banua-fade-up {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes banua-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .container > .flash {
+            animation: banua-fade-up .45s ease both;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+            }
+        }
+
+        @media (max-width: 700px) {
+            nav { padding: 12px 16px; }
+            .menu { display: none; }
+            .grid { grid-template-columns: 1fr; }
+            .container { padding: 20px 14px; }
+            .theme-toggle { bottom: 18px; right: 18px; }
+            .theme-toggle button span.label { display: none; }
+            .theme-toggle button { padding: 10px 12px; }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<nav>
+    <a class="brand" href="{{ url_for('home') }}">Banua Edu</a>
+
+    <div class="menu">
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('dashboard.index') }}"
+               class="{% if request.endpoint == 'dashboard.index' %}active{% endif %}">Beranda</a>
+            <a href="{{ url_for('materi.index') }}"
+               class="{% if request.endpoint and request.endpoint.startswith('materi.') %}active{% endif %}">Materi</a>
+            <a href="{{ url_for('ujian.index') }}"
+               class="{% if request.endpoint and request.endpoint.startswith('ujian.') %}active{% endif %}">Ujian</a>
+            <a href="{{ url_for('auth.logout') }}">Keluar</a>
+        {% else %}
+            <a href="{{ url_for('auth.login') }}">Masuk</a>
+            <a href="{{ url_for('auth.register') }}">Daftar</a>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</div>
+
+<footer class="site-footer">
+    <strong>Banua Edu</strong>
+    <span class="sep">·</span>
+    Belajar dari Barabai, Kalimantan Selatan © 2026
+    <span class="sep">·</span>
+    <strong>BK Tech</strong>
+    <span class="sep">·</span>
+    Support <strong>Adha H.Y</strong>
+</footer>
+
+<div class="theme-toggle" id="themeToggle">
+    <button type="button" data-theme="light" title="Tema Cerah">
+        <span>☀️</span> <span class="label">Cerah</span>
+    </button>
+    <button type="button" data-theme="dark" title="Tema Gelap">
+        <span>🌙</span> <span class="label">Gelap</span>
+    </button>
+</div>
+
+<script>
+(function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll('#themeToggle button');
+    function applyTheme(theme) {
+        root.setAttribute('data-theme', theme);
+        localStorage.setItem('banua-theme', theme);
+        buttons.forEach(function (btn) {
+            btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
+        });
+    }
+    applyTheme(localStorage.getItem('banua-theme') || 'light');
+    buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            applyTheme(btn.getAttribute('data-theme'));
+        });
+    });
+})();
+</script>
+
+</body>
+</html>
