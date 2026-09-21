@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Materi - Banua Edu{% endblock %}
+
+{% block content %}
+
+<h1>Mata Pelajaran</h1>
+
+<div class="grid">
+
+{% for subject in subjects %}
+
+    <div class="card">
+
+        <h2>{{ subject.nama }}</h2>
+
+        <p>
+            <strong>{{ subject.jenjang }}</strong>
+        </p>
+
+        <p>
+            {{ subject.deskripsi }}
+        </p>
+
+        <a class="btn"
+           href="{{ url_for('materi.subject_detail', subject_id=subject.id) }}">
+            Lihat Materi
+        </a>
+
+    </div>
+
+{% else %}
+
+    <div class="card">
+        <p>Belum ada mata pelajaran.</p>
+    </div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

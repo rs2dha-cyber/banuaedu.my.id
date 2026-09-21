@@ -1,0 +1,228 @@
+@'
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banua Edu</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        .navbar {
+            background: #0f3d91;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .hero {
+            max-width: 1100px;
+            width: 92%;
+            margin: 50px auto;
+            background: white;
+            border-radius: 22px;
+            padding: 70px 40px;
+            text-align: center;
+            box-shadow: 0 10px 35px rgba(0,0,0,.08);
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            margin: 0 0 15px;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #64748b;
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 25px;
+            border-radius: 10px;
+            background: #0f3d91;
+            color: white;
+            text-decoration: none;
+            margin: 5px;
+        }
+
+        .btn.secondary {
+            background: #64748b;
+        }
+
+        .features {
+            max-width: 1100px;
+            width: 92%;
+            margin: 0 auto 50px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature {
+            background: white;
+            border-radius: 18px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,.06);
+        }
+
+        .feature h2 {
+            margin-top: 0;
+        }
+
+        .feature p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav a {
+                margin: 0 7px;
+            }
+
+            .hero {
+                margin-top: 25px;
+                padding: 45px 20px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <a class="logo" href="/">
+        🎓 Banua Edu
+    </a>
+
+    <div class="nav">
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('dashboard.index') }}">Beranda</a>
+            <a href="{{ url_for('materi.index') }}">Materi</a>
+            <a href="{{ url_for('ujian.index') }}">Ujian</a>
+            <a href="{{ url_for('auth.logout') }}">Keluar</a>
+        {% else %}
+            <a href="{{ url_for('auth.login') }}">Masuk</a>
+            <a href="{{ url_for('auth.register') }}">Daftar</a>
+        {% endif %}
+    </div>
+
+</nav>
+
+<section class="hero">
+
+    <h1>Selamat Datang di Banua Edu</h1>
+
+    <p>
+        Platform pembelajaran digital untuk membantu siswa
+        belajar dengan mudah, terarah, dan menyenangkan.
+    </p>
+
+    {% if current_user.is_authenticated %}
+
+        <a class="btn" href="{{ url_for('dashboard.index') }}">
+            Buka Beranda
+        </a>
+
+    {% else %}
+
+        <a class="btn" href="{{ url_for('auth.login') }}">
+            Masuk
+        </a>
+
+        <a class="btn secondary" href="{{ url_for('auth.register') }}">
+            Daftar Siswa
+        </a>
+
+    {% endif %}
+
+</section>
+
+<section class="features">
+
+    <div class="feature">
+        <h2>📚 Materi</h2>
+        <p>
+            Akses berbagai materi pembelajaran
+            yang tersusun secara sistematis.
+        </p>
+    </div>
+
+    <div class="feature">
+        <h2>📝 Ujian</h2>
+        <p>
+            Kerjakan latihan dan ujian untuk
+            mengukur pemahaman belajar.
+        </p>
+    </div>
+
+    <div class="feature">
+        <h2>📊 Evaluasi</h2>
+        <p>
+            Lihat hasil ujian dan perkembangan
+            pembelajaran Anda.
+        </p>
+    </div>
+
+</section>
+
+<footer>
+    © 2026 Banua Edu
+</footer>
+
+</body>
+</html>
+'@ | Set-Content -Encoding UTF8 .\app\templates\index.html

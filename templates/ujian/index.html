@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Ujian - Banua Edu{% endblock %}
+
+{% block content %}
+
+<h1>Daftar Ujian</h1>
+
+{% for quiz in quizzes %}
+
+<div class="card">
+
+    <h2>{{ quiz.judul }}</h2>
+
+    {% if quiz.deskripsi %}
+        <p>{{ quiz.deskripsi }}</p>
+    {% endif %}
+
+    <a class="btn"
+       href="{{ url_for('ujian.take', quiz_id=quiz.id) }}">
+        Mulai Ujian
+    </a>
+
+</div>
+
+{% else %}
+
+<div class="card">
+    <p>Belum ada ujian yang tersedia.</p>
+</div>
+
+{% endfor %}
+
+{% endblock %}

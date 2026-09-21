@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Admin — Banua Edu{% endblock %}
+{% block content %}
+<section class="dashboard"><p class="eyebrow">ADMINISTRATOR</p><h1>Panel Admin</h1>
+<div class="stats"><div><b>{{ users }}</b><span>Pengguna</span></div><div><b>{{ subjects }}</b><span>Mata pelajaran</span></div><div><b>{{ materials }}</b><span>Materi</span></div><div><b>{{ quizzes }}</b><span>Ujian</span></div></div>
+<div class="actions"><a class="btn primary" href="{{ url_for('admin.new_subject') }}">+ Mata Pelajaran</a><a class="btn primary" href="{{ url_for('admin.new_material') }}">+ Materi</a><a class="btn primary" href="{{ url_for('admin.new_quiz') }}">+ Ujian</a><a class="btn primary" href="{{ url_for('admin.new_question') }}">+ Soal</a></div>
+</section>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Beranda - Banua Edu{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>
+        Halo, {{ user.nama }}! 👋
+    </h1>
+
+    <p>
+        Selamat datang di Beranda Banua Edu.
+    </p>
+
+    <p>
+        Username:
+        <strong>{{ user.username }}</strong>
+    </p>
+
+</div>
+
+<div class="grid">
+
+    <div class="card">
+        <h2>📚 Materi</h2>
+        <p>Pelajari materi pembelajaran.</p>
+
+        <a class="btn" href="{{ url_for('materi.index') }}">
+            Lihat Materi
+        </a>
+    </div>
+
+    <div class="card">
+        <h2>📝 Ujian</h2>
+        <p>Kerjakan ujian yang tersedia.</p>
+
+        <a class="btn" href="{{ url_for('ujian.index') }}">
+            Lihat Ujian
+        </a>
+    </div>
+
+    <div class="card">
+        <h2>👤 Akun</h2>
+        <p>Role akun: <strong>{{ user.role }}</strong></p>
+    </div>
+
+</div>
+
+{% endblock %}

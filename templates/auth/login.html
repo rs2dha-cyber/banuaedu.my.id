@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Masuk - Banua Edu{% endblock %}
+
+{% block content %}
+
+<div style="max-width:480px; margin:50px auto;">
+
+    <div class="card">
+
+        <h1>Masuk ke Banua Edu</h1>
+
+        <p style="color:#64748b;">
+            Silakan masukkan akun Anda.
+        </p>
+
+        <form method="POST">
+
+            <label>Username</label>
+            <input
+                type="text"
+                name="username"
+                required
+                autocomplete="username"
+            >
+
+            <label>Password</label>
+            <input
+                type="password"
+                name="password"
+                required
+                autocomplete="current-password"
+            >
+
+            <button class="btn" type="submit">
+                Masuk
+            </button>
+
+        </form>
+
+        <p style="margin-top:20px;">
+            Belum memiliki akun?
+            <a href="{{ url_for('auth.register') }}">Daftar sekarang</a>
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

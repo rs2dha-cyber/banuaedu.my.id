@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="
+    max-width: 900px;
+    margin: 35px auto;
+    padding: 0 20px 50px;
+">
+
+    <!-- HEADER -->
+    <div style="
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: white;
+        border-radius: 20px;
+        padding: 28px;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 25px rgba(37,99,235,.18);
+    ">
+
+        <div style="
+            font-size: 13px;
+            opacity: .85;
+            margin-bottom: 8px;
+        ">
+            UJIAN BANUA EDU
+        </div>
+
+        <h1 style="
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        ">
+            {{ quiz.judul }}
+        </h1>
+
+        <div style="
+            margin-top: 18px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        ">
+
+            <span>
+                📝 {{ questions|length }} Soal
+            </span>
+
+            <span>
+                ⏱️ {{ quiz.durasi_menit }} Menit
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- TIMER -->
+    <div id="timerBox" style="
+        position: sticky;
+        top: 15px;
+        z-index: 100;
+        background: white;
+        border: 2px solid #2563eb;
+        border-radius: 16px;
+        padding: 16px 20px;
+        margin-bottom: 22px;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0,0,0,.08);
+    ">
+
+        <div style="
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 5px;
+        ">
+            WAKTU TERSISA
+        </div>
+
+        <div id="timer" style="
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #2563eb;
+        ">
+            --:--
+        </div>
+
+    </div>
+
+
+    <!-- FORM UJIAN -->
+    <form method="POST" id="quizForm">
+
+        {% for q in questions %}
+
+        <div style="
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.04);
+        ">
+
+            <!-- NOMOR -->
+            <div style="
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                background: #eff6ff;
+                color: #2563eb;
+                font-weight: 700;
+                margin-bottom: 15px;
+            ">
+                {{ loop.index }}
+            </div>
+
+
+            <!-- PERTANYAAN -->
+            <div style="
+                font-size: 19px;
+                line-height: 1.6;
+                font-weight: 600;
+                color: #0f172a;
+                margin-bottom: 20px;
+            ">
+                {{ q.pertanyaan }}
+            </div>
+
+
+            <!-- A -->
+            <label style="
+                display: block;
+                padding: 15px;
+                margin-bottom: 10px;
+                border: 1px solid #cbd5e1;
+                border-radius: 12px;
+                cursor: pointer;
+            ">
+                <input
+                    type="radio"
+                    name="q{{ q.id }}"
+                    value="a"
+                    style="margin-right: 10px;"
+                >
+                <strong>A.</strong> {{ q.opsi_a }}
+            </label>
+
+
+            <!-- B -->
+            <label style="
+                display: block;
+                padding: 15px;
+                margin-bottom: 10px;
+                border: 1px solid #cbd5e1;
+                border-radius: 12px;
+                cursor: pointer;
+            ">
+                <input
+                    type="radio"
+                    name="q{{ q.id }}"
+                    value="b"
+                    style="margin-right: 10px;"
+                >
+                <strong>B.</strong> {{ q.opsi_b }}
+            </label>
+
+
+            <!-- C -->
+            <label style="
+                display: block;
+                padding: 15px;
+                margin-bottom: 10px;
+                border: 1px solid #cbd5e1;
+                border-radius: 12px;
+                cursor: pointer;
+            ">
+                <input
+                    type="radio"
+                    name="q{{ q.id }}"
+                    value="c"
+                    style="margin-right: 10px;"
+                >
+                <strong>C.</strong> {{ q.opsi_c }}
+            </label>
+
+
+            <!-- D -->
+            <label style="
+                display: block;
+                padding: 15px;
+                border: 1px solid #cbd5e1;
+                border-radius: 12px;
+                cursor: pointer;
+            ">
+                <input
+                    type="radio"
+                    name="q{{ q.id }}"
+                    value="d"
+                    style="margin-right: 10px;"
+                >
+                <strong>D.</strong> {{ q.opsi_d }}
+            </label>
+
+        </div>
+
+        {% endfor %}
+
+
+        <!-- SUBMIT -->
+        <div style="
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 25px;
+            text-align: center;
+        ">
+
+            <button
+                type="submit"
+                id="submitButton"
+                onclick="return confirm('Apakah Anda yakin ingin mengirim jawaban?');"
+                style="
+                    width: 100%;
+                    max-width: 400px;
+                    border: none;
+                    background: #2563eb;
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 12px;
+                    font-size: 17px;
+                    font-weight: 700;
+                    cursor: pointer;
+                "
+            >
+                ✓ Kirim Jawaban
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- TIMER JAVASCRIPT -->
+<script>
+
+(function () {
+
+    const form = document.getElementById("quizForm");
+    const timer = document.getElementById("timer");
+    const timerBox = document.getElementById("timerBox");
+
+    let totalSeconds = {{ quiz.durasi_menit }} * 60;
+
+    function updateTimer() {
+
+        let minutes = Math.floor(totalSeconds / 60);
+        let seconds = totalSeconds % 60;
+
+        minutes = String(minutes).padStart(2, "0");
+        seconds = String(seconds).padStart(2, "0");
+
+        timer.textContent = minutes + ":" + seconds;
+
+
+        if (totalSeconds <= 60) {
+
+            timer.style.color = "#dc2626";
+            timerBox.style.borderColor = "#dc2626";
+
+        }
+
+
+        if (totalSeconds <= 0) {
+
+            timer.textContent = "00:00";
+
+            alert(
+                "Waktu ujian telah habis. Jawaban akan dikirim otomatis."
+            );
+
+            form.submit();
+
+            return;
+        }
+
+        totalSeconds--;
+
+    }
+
+
+    updateTimer();
+
+    setInterval(updateTimer, 1000);
+
+})();
+
+</script>
+
+
+<!-- RESPONSIVE MOBILE -->
+<style>
+
+@media (max-width: 600px) {
+
+    div[style*="max-width: 900px"] {
+        margin-top: 20px !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    h1 {
+        font-size: 22px !important;
+    }
+
+    #timer {
+        font-size: 27px !important;
+    }
+
+}
+
+</style>
+
+{% endblock %}

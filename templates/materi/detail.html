@@ -1,0 +1,569 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ item.judul }} • Banua Edu
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .detail-wrapper {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 24px 20px 60px;
+    }
+
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #64748b;
+    }
+
+    .breadcrumb a {
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .breadcrumb a:hover {
+        text-decoration: underline;
+    }
+
+    .material-hero {
+        background:
+            linear-gradient(
+                135deg,
+                #0f172a 0%,
+                #1e3a8a 55%,
+                #2563eb 100%
+            );
+        color: white;
+        border-radius: 28px;
+        padding: 38px;
+        margin-bottom: 24px;
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.16);
+    }
+
+    .material-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.14);
+        border: 1px solid rgba(255,255,255,0.16);
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    .material-hero h1 {
+        margin: 0 0 12px;
+        font-size: clamp(28px, 5vw, 46px);
+        line-height: 1.12;
+        letter-spacing: -0.8px;
+    }
+
+    .material-hero p {
+        margin: 0;
+        color: rgba(255,255,255,0.82);
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    .content-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 300px;
+        gap: 24px;
+        align-items: start;
+    }
+
+    .content-card,
+    .side-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 24px;
+        box-shadow: 0 12px 35px rgba(15, 23, 42, 0.06);
+    }
+
+    .content-card {
+        padding: 32px;
+    }
+
+    .content-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 22px;
+    }
+
+    .content-title-icon {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 13px;
+        background: #eff6ff;
+        font-size: 21px;
+    }
+
+    .content-title h2 {
+        margin: 0;
+        font-size: 22px;
+        color: #0f172a;
+    }
+
+    .material-content {
+        color: #334155;
+        font-size: 16px;
+        line-height: 1.9;
+        white-space: pre-line;
+        overflow-wrap: anywhere;
+    }
+
+    .material-content p {
+        margin: 0 0 18px;
+    }
+
+    .side-card {
+        padding: 22px;
+    }
+
+    .side-card h3 {
+        margin: 0 0 16px;
+        color: #0f172a;
+        font-size: 17px;
+    }
+
+    .info-item {
+        padding: 13px 0;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .info-item:last-child {
+        border-bottom: none;
+    }
+
+    .info-label {
+        display: block;
+        color: #64748b;
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+
+    .info-value {
+        color: #0f172a;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .resource-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 18px;
+    }
+
+    .resource-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 13px 15px;
+        border-radius: 14px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+        transition: 0.2s ease;
+    }
+
+    .resource-btn:hover {
+        transform: translateY(-1px);
+    }
+
+    .video-btn {
+        background: #eff6ff;
+        color: #1d4ed8;
+        border: 1px solid #bfdbfe;
+    }
+
+    .pdf-btn {
+        background: #fef2f2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+    }
+
+    .navigation {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 24px;
+    }
+
+    .nav-btn {
+        display: block;
+        text-decoration: none;
+        padding: 18px 20px;
+        border-radius: 20px;
+        border: 1px solid #e2e8f0;
+        background: white;
+        color: #0f172a;
+        transition: 0.2s ease;
+    }
+
+    .nav-btn:hover {
+        border-color: #93c5fd;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(15, 23, 42, 0.07);
+    }
+
+    .nav-label {
+        display: block;
+        color: #64748b;
+        font-size: 12px;
+        margin-bottom: 7px;
+    }
+
+    .nav-title {
+        display: block;
+        font-size: 15px;
+        font-weight: 800;
+        line-height: 1.4;
+    }
+
+    .nav-next {
+        text-align: right;
+    }
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 22px;
+        padding: 12px 18px;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        color: #334155;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .back-btn:hover {
+        background: #f1f5f9;
+    }
+
+    @media (max-width: 850px) {
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .side-card {
+            order: -1;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .detail-wrapper {
+            padding: 14px 12px 40px;
+        }
+
+        .material-hero {
+            padding: 26px 21px;
+            border-radius: 22px;
+        }
+
+        .material-hero h1 {
+            font-size: 30px;
+        }
+
+        .material-hero p {
+            font-size: 14px;
+        }
+
+        .content-card {
+            padding: 22px 18px;
+            border-radius: 20px;
+        }
+
+        .side-card {
+            padding: 18px;
+            border-radius: 20px;
+        }
+
+        .material-content {
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .navigation {
+            grid-template-columns: 1fr;
+        }
+
+        .nav-next {
+            text-align: left;
+        }
+
+        .breadcrumb {
+            font-size: 12px;
+        }
+    }
+</style>
+
+<div class="detail-wrapper">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="{{ url_for('materi.index') }}">
+            📚 Materi
+        </a>
+
+        <span>›</span>
+
+        <a href="{{ url_for(
+            'materi.subject_detail',
+            subject_id=subject.id
+        ) }}">
+            {{ subject.nama }}
+        </a>
+
+        <span>›</span>
+
+        <span>{{ item.judul }}</span>
+    </div>
+
+
+    <!-- Hero -->
+    <section class="material-hero">
+
+        <div class="material-label">
+            📖 Materi Pembelajaran
+        </div>
+
+        <h1>
+            {{ item.judul }}
+        </h1>
+
+        <p>
+            {{ subject.nama }}
+            {% if subject.jenjang %}
+                • {{ subject.jenjang }}
+            {% endif %}
+        </p>
+
+    </section>
+
+
+    <div class="content-grid">
+
+        <!-- Konten utama -->
+        <main>
+
+            <article class="content-card">
+
+                <div class="content-title">
+
+                    <div class="content-title-icon">
+                        📝
+                    </div>
+
+                    <h2>
+                        Materi Pembelajaran
+                    </h2>
+
+                </div>
+
+                <div class="material-content">
+
+                    {% if item.isi %}
+                        {{ item.isi }}
+                    {% else %}
+
+                        <p>
+                            Materi pembelajaran belum memiliki
+                            isi.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </article>
+
+
+            <!-- Navigasi materi -->
+            <div class="navigation">
+
+                {% if prev_material %}
+
+                    <a
+                        class="nav-btn"
+                        href="{{ url_for(
+                            'materi.detail',
+                            material_id=prev_material.id
+                        ) }}"
+                    >
+
+                        <span class="nav-label">
+                            ← Materi sebelumnya
+                        </span>
+
+                        <span class="nav-title">
+                            {{ prev_material.judul }}
+                        </span>
+
+                    </a>
+
+                {% else %}
+
+                    <div></div>
+
+                {% endif %}
+
+
+                {% if next_material %}
+
+                    <a
+                        class="nav-btn nav-next"
+                        href="{{ url_for(
+                            'materi.detail',
+                            material_id=next_material.id
+                        ) }}"
+                    >
+
+                        <span class="nav-label">
+                            Materi berikutnya →
+                        </span>
+
+                        <span class="nav-title">
+                            {{ next_material.judul }}
+                        </span>
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+
+            <a
+                class="back-btn"
+                href="{{ url_for(
+                    'materi.subject_detail',
+                    subject_id=subject.id
+                ) }}"
+            >
+                ← Kembali ke daftar materi
+            </a>
+
+        </main>
+
+
+        <!-- Sidebar -->
+        <aside>
+
+            <div class="side-card">
+
+                <h3>
+                    📌 Informasi Materi
+                </h3>
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Mata Pelajaran
+                    </span>
+
+                    <span class="info-value">
+                        {{ subject.nama }}
+                    </span>
+
+                </div>
+
+
+                {% if subject.jenjang %}
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Jenjang
+                    </span>
+
+                    <span class="info-value">
+                        {{ subject.jenjang }}
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+
+                {% if item.urutan is not none %}
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Urutan Materi
+                    </span>
+
+                    <span class="info-value">
+                        Materi {{ item.urutan }}
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- Resource -->
+                {% if item.video_url or item.pdf_url %}
+
+                <div class="resource-list">
+
+                    {% if item.video_url %}
+
+                    <a
+                        class="resource-btn video-btn"
+                        href="{{ item.video_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <span>▶️ Tonton Video</span>
+                        <span>↗</span>
+                    </a>
+
+                    {% endif %}
+
+
+                    {% if item.pdf_url %}
+
+                    <a
+                        class="resource-btn pdf-btn"
+                        href="{{ item.pdf_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <span>📄 Buka PDF</span>
+                        <span>↗</span>
+                    </a>
+
+                    {% endif %}
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</div>
+
+{% endblock %}
